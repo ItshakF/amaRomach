@@ -1,0 +1,19 @@
+<div class="image content item" id="under-head-modal">
+  <div class="ui medium image size">
+    <img src="{{product.image}}" alt="{{product.name}}" class="img-size">
+  </div>
+  <div class="description text-modal">
+    <div class="ui header">{{product.name}}</div>
+    <p>{{product.description}}</p>
+    <p>{{product.price | currency: 'ILS'}}</p>
+    <div *ngIf="!product.limit; else limited_selector">
+      <app-input-selector (numberEventEmitter)="changePrice($event)"></app-input-selector>
+    </div>
+    <ng-template #limited_selector>
+      <app-dropdown-selector (numberEventEmitter)="changePrice($event)"
+                             [limit]=product.limit></app-dropdown-selector>
+    </ng-template>
+
+  </div>
+  <i class="large right floated red close icon" (click)="removeProduct()"></i>
+</div>

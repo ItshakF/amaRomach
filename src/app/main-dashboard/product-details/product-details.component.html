@@ -1,0 +1,6 @@
+<div *ngIf="product|async as product">
+  <div>{{product.name}}</div>
+  <div>{{product.description }}</div>
+  <div>{{product.price | currency: 'ILS'}}</div>
+  <img [src]="product.image" class="ui small image" alt="{{product.name}}">
+</div>

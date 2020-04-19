@@ -1,0 +1,6 @@
+<sui-select class="selection"
+            [(ngModel)]="selectedOptions" (selectedOptionChange)="changePrice(selectedOptions)"
+            name="option">
+  <sui-select-option *ngFor="let x = index of ' '.repeat(limit).split('')"
+                     [value]="x + 1"></sui-select-option>
+</sui-select>

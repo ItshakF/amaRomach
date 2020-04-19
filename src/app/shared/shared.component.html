@@ -1,0 +1,42 @@
+<div class="ui huge menu grid" id="nav-bar">
+  <div class="ui grid" id="global-navbar">
+    <img class="ui medium image pointer" id="logo" src="../../assets/images/white_logo.png" alt="logo"
+         routerLink="/product">
+    <div class="ui action input" id="nav-search">
+      <input type="text" placeholder="Search...">
+      <button class="ui primary icon button">
+        <i class="search icon"></i>
+      </button>
+    </div>
+  </div>
+  <div class="ui right menu fluid" id="right-nav-background">
+    <div class="right menu bold" id="right-nav-menu">
+      <div class="ui text menu border" id="pop">
+        <ng-template let-popup #popupTemplate>
+          <div class="ui flowing basic admission">
+            <div class="ui two column relaxed divided grid">
+              <div class="column">
+                <h4 class="ui header">Your account</h4>
+                <div class="ui link list">
+                  <a routerLink="/sign-in" class="item">SIGN IN</a>
+                  <a routerLink="/sign-up" class="item">SIGN UP</a>
+                </div>
+              </div>
+              <div class="column">
+                <h4 class="ui header">Your Lists</h4>
+                <div class="ui link list">
+                  <a class="item">Create New List</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+        <a class="browse item">
+          <span class="bold white-text" suiPopup [popupTemplate]="popupTemplate">Account&Lists <i
+            class="dropdown icon"></i></span>
+        </a>
+      </div>
+      <app-modal-cart></app-modal-cart>
+    </div>
+  </div>
+</div>

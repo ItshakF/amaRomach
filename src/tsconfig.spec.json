@@ -1,0 +1,25 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "noImplicitAny": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "module": "commonjs",
+    "outDir": "../out-tsc/spec",
+    "types": [
+      "jasmine",
+      "node",
+      "jest",
+      "jsdom"
+    ],
+    "allowJs": true
+  },
+  "files": [
+    "test.ts",
+    "src/polyfills.ts"
+  ],
+  "include": [
+    "src/**/*.spec.ts",
+    "src/**/*.d.ts"
+  ]
+}
