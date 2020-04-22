@@ -12,6 +12,9 @@ import { MainDashboardComponent } from '../main-dashboard.component';
 import { DashboardRoutingModule } from '../dashboard-routing/dashboard-routing.module';
 import { ProductToCartService } from '../../services/product-to-cart.service';
 import { ProductFileReaderService } from '../../services/product-file-reader.service';
+import { StoreModule } from '@ngrx/store';
+import * as fromDashboard from '../reducers/dashboard-reducer';
+
 
 @NgModule({
   declarations: [
@@ -27,6 +30,8 @@ import { ProductFileReaderService } from '../../services/product-file-reader.ser
     AppRoutingModule,
     SharedModule,
     DashboardRoutingModule,
+    StoreModule.forFeature(fromDashboard.productKey, fromDashboard.reducer)
+
   ],
   providers: [ProductToCartService, ProductFileReaderService]
 })

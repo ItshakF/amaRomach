@@ -4,6 +4,9 @@ import { Product } from '../../model/product.model';
 import { ProductToCartService } from '../../services/product-to-cart.service';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { Store, select } from '@ngrx/store';
+import * as dashboardActions from '../actions/dashboard-actions';
+import * as dashboardReducer from '../reducers/dashboard-reducer';
 
 @Component({
   selector: 'app-product-admin',
@@ -17,12 +20,15 @@ export class ProductsComponent implements OnInit, OnDestroy {
   @Output() productEvent: EventEmitter<Product> = new EventEmitter<Product>();
 
   constructor(private productFileReaderService: ProductFileReaderService,
-              private productToCartService: ProductToCartService) {
+              private productToCartService: ProductToCartService,
+              private store: Store<dashboardReducer.State>) {
   }
 
   ngOnInit() {
+    this.store.dispatch(dashboardActions.loadProduct());
     this.unsubscribe$ = new Subject<void>();
-    this.products = this.getTextOfProducts();
+    this.products = this.store.pipe(select(dashboardReducer.stateProducts));
+    console.log(this.products);
   }
 
   private getTextOfProducts() {

@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
 export class ModalComponent extends ComponentModalConfig<null, void, void> implements OnInit {
 
   private cartTotalPrice: number;
-  private products: Observable<CartProduct[]>;
+  products: Observable<CartProduct[]>;
 
   constructor(private productServices: ProductToCartService) {
     super(ModalComponent);
