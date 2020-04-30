@@ -29,9 +29,9 @@ import { ProductEffect } from './main-dashboard/effects/dashboard-effect';
     HttpClientModule,
     DashboardRoutingModule,
     SignRoutingModule,
+    ProductModule,
     StoreModule.forRoot({}),
     EffectsModule.forRoot([ProductEffect]),
-    ProductModule,
     StoreDevtoolsModule.instrument({
       maxAge: 10
     })

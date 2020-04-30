@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { Product } from 'src/app/model/product.model';
 import { CartProduct } from 'src/app/model/cart-product.model';
+import { ProductInCart } from '../reducer/cart-reducer';
 
 export enum cartActions {
   addProduct = '[Main Page] add a product to cart',
@@ -18,7 +19,7 @@ export const removeProduct = createAction(
 );
 
 export const updateQuantity = createAction(
-  cartActions.updateQuantity, props<{ productName: string, quantity: number }>()
+  cartActions.updateQuantity, props<{ index: number, quantity: number }>()
 );
 
 export const checkout = createAction(

@@ -7,6 +7,7 @@ import { CartNameProduct } from 'src/app/model/cart-name-product';
 export enum dashboardAction {
   loadProduct = '[Main Page] Load all products',
   sucessLoad = '[Main Page] sucess Load',
+  failLoad = '[Main Page] fail Load',
   checkout = '[Main Page] checkout'
 }
 
@@ -17,6 +18,10 @@ export const loadProduct = createAction(
 export const sucessLoad = createAction(
   dashboardAction.sucessLoad, props<{ payload: Product[] } >()
 );
+
+export const failLoad = createAction(
+  dashboardAction.failLoad
+)
 
 export const checkout = createAction(
   dashboardAction.checkout, props<{ cart: Observable<CartProduct[]> }>()

@@ -1,7 +1,12 @@
 import { Product } from 'src/app/model/product.model';
-import { createReducer, Action, on, createSelector } from '@ngrx/store';
+import { createReducer, Action, on, createSelector, createFeatureSelector } from '@ngrx/store';
 import * as dashboardActions from '../actions/dashboard-actions';
 import { Observable, of } from 'rxjs';
+
+export interface DashboardProduct {
+  product: Product;
+  isInCart: boolean;
+}
 
 export interface State {
   products: Product[];
@@ -17,10 +22,25 @@ const dashboardReducer = createReducer(
   initialState,
   on(dashboardActions.sucessLoad, (state, { payload }) => ({
     ...state, products : payload
+  })),
+  on(dashboardActions.checkout, state => ({
+    ...state, state: []
   }))
 );
 
-export const stateProducts = (state: State) => state.products;
+export const selectProductFeature = createFeatureSelector<State>(productKey);
+
+export const productFeatureState = (state: State) => state;
+
+export const stateProducts =  createSelector (
+  selectProductFeature,
+  (state: State) => state.products
+);
+
+export const selectProduct =  createSelector(
+  selectProductFeature,
+  (state: State, productName: string) => state.products.find(product => product.name === productName)
+);
 
 // export const selectState =  createSelector(stateProducts)
 

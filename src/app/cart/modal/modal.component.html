@@ -1,7 +1,7 @@
 <div class="header">
   Your Shopping Cart
 </div>
-<div *ngFor="let productInCart of products | async ">
+<div *ngFor="let productInCart of products ">
   <app-modal-product-in-cart
     [product]="productInCart.product"
     (productEventPriceUpdate)="updatePrice($event)"
@@ -10,7 +10,7 @@
   </app-modal-product-in-cart>
 </div>
 <div id="cart-sum">
-  Total Price : <span id="total-sum">{{showCurrentPrice() | currency: 'ILS' }}</span>
+  Total Price : <span id="total-sum">{{ try | currency: 'ILS' }}</span>
 </div>
 <div class="actions">
   <button class="ui black deny button" data-dismiss="modal" (click)="modal.deny()">

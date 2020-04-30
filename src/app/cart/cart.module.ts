@@ -9,6 +9,8 @@ import { ModalComponent } from './modal/modal.component';
 import { DropdownSelectorComponent } from './product-in-cart/dropdown-selector/dropdown-selector.component';
 import { InputSelectorComponent } from './product-in-cart/input-selector/input-selector.component';
 import { ProductToCartService } from '../services/product-to-cart.service';
+import { StoreModule } from '@ngrx/store';
+import * as fromCart from '../cart/reducer/cart-reducer';
 
 
 @NgModule({
@@ -23,6 +25,7 @@ import { ProductToCartService } from '../services/product-to-cart.service';
     CommonModule,
     SuiModule,
     FormsModule,
+    StoreModule.forFeature(fromCart.cartKey, fromCart.reducer)
   ],
   exports: [
     CartComponent,

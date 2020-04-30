@@ -19,7 +19,7 @@ export class ProductEffect {
     mergeMap(() => this.fileReaderService.getJSONListOfProducts()
       .pipe(
         map(products => productActions.sucessLoad({payload : products}),
-        catchError(() => EMPTY),
+        catchError(() => productActions.failLoad ),
       )
     )
   )));
@@ -27,7 +27,7 @@ export class ProductEffect {
 
   // checkout$ = createEffect(() = this.action$.pipe(
   //   ofType(cartActions.checkout),
-  //   mergeMap((cart: CartProduct[]) => pipe(map(() => productActions.checkout(cart))
+  //   mergeMap((cart: CartProduct[]) => productActions.checkout({cart: cart}))
   // ))))
 
   constructor( private action$: Actions,
