@@ -1,6 +1,6 @@
 import {CartState, reducer, initialCartState} from './cart-reducer';
 import {mockProduct} from 'src/app/products.mock';
-import {cartActions, addProduct, removeProduct, updateQuantity, resetCart} from '../actions/cart-actions';
+import { addProduct, removeProduct, updateQuantity, resetCart} from '../actions/cart-actions';
 
 export const mockCartState: CartState = {
   cartProduct: [{

@@ -1,7 +1,6 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
-import {Product} from '../../model/product.model';
-import {DashboardProduct} from '../reducers/dashboard-reducer';
+import { Product } from '../../model/product.model';
 
 @Component({
   selector: 'app-product-card',

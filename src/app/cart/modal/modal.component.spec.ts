@@ -1,18 +1,16 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {NO_ERRORS_SCHEMA} from '@angular/core';
+import {StoreModule, Store} from '@ngrx/store';
+import {BrowserDynamicTestingModule} from '@angular/platform-browser-dynamic/testing';
 
 import {ModalComponent} from './modal.component';
-import {NO_ERRORS_SCHEMA} from '@angular/core';
-import {StoreModule, Store, ReducerManager, ReducerManagerDispatcher} from '@ngrx/store';
 import * as fromDashboard from '../../main-dashboard/reducers/dashboard-reducer';
 import {mockProduct, mockProducts} from '../../products.mock';
-import {Product} from 'src/app/model/product.model';
 import {addProduct, resetCart, checkout} from '../actions/cart-actions';
 import {updateQuantity} from '../actions/cart-actions';
-import * as fromCart from "../reducer/cart-reducer";
-import {State} from "../../main-dashboard/reducers/dashboard-reducer";
-import {BrowserDynamicTestingModule, platformBrowserDynamicTesting} from "@angular/platform-browser-dynamic/testing";
-import {CartState, ProductInCart} from "../reducer/cart-reducer";
-import {sucessLoad} from "../../main-dashboard/actions/dashboard-actions";
+import * as fromCart from '../reducer/cart-reducer';
+import {State} from '../../main-dashboard/reducers/dashboard-reducer';
+import {sucessLoad} from '../../main-dashboard/actions/dashboard-actions';
 
 describe('ModalComponent', () => {
   let component: ModalComponent;

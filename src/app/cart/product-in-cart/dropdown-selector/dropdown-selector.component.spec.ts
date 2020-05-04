@@ -1,8 +1,8 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-
-import {DropdownSelectorComponent} from './dropdown-selector.component';
 import {SuiModule} from 'ng2-semantic-ui';
 import {FormsModule} from '@angular/forms';
+
+import {DropdownSelectorComponent} from './dropdown-selector.component';
 
 describe('DropdownSelectorComponent', () => {
   let component: DropdownSelectorComponent;

@@ -1,18 +1,15 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {HttpClient, HttpHandler} from '@angular/common/http';
-import {NO_ERRORS_SCHEMA} from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { mock, when, instance } from 'ts-mockito';
+import { of } from 'rxjs';
+import { Store, StoreModule } from '@ngrx/store';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import {ProductsComponent} from './products.component';
-import {ProductFileReaderService} from '../../services/product-file-reader.service';
-import {ProductToCartService} from '../../services/product-to-cart.service';
-import Mock = jest.Mock;
-import {mock, when, instance} from 'ts-mockito';
-import {of} from 'rxjs';
-import {mockProduct, mockProducts} from 'src/app/products.mock';
-import {Store, StoreModule} from '@ngrx/store';
-import {addProduct, removeProduct} from 'src/app/cart/actions/cart-actions';
-import {HttpClientTestingModule} from "@angular/common/http/testing";
-import * as fromDashboard from "../reducers/dashboard-reducer";
+import { ProductsComponent } from './products.component';
+import { ProductFileReaderService } from '../../services/product-file-reader.service';
+import { mockProduct, mockProducts } from 'src/app/products.mock';
+import { addProduct, removeProduct } from 'src/app/cart/actions/cart-actions';
+import * as fromDashboard from '../reducers/dashboard-reducer';
 import * as fromCart from '../../cart/reducer/cart-reducer';
 
 describe('ProductsComponent', () => {
@@ -29,7 +26,7 @@ describe('ProductsComponent', () => {
       declarations: [
         ProductsComponent
       ],
-      imports: [HttpClientTestingModule, StoreModule.forRoot({products: fromDashboard.reducer, cart: fromCart.reducer})
+      imports: [HttpClientTestingModule, StoreModule.forRoot({ products: fromDashboard.reducer, cart: fromCart.reducer })
       ],
       providers: [
         {
@@ -56,21 +53,21 @@ describe('ProductsComponent', () => {
 
   it('should define variables', () => {
     component.ngOnInit();
-    expect(component.trues).toBeDefined();
+    expect(component.products).toBeDefined();
   });
 
   it('should add Product to cart', () => {
-    component.addProduct({product: mockProduct, isInCart: false});
-    const action = addProduct({product: mockProduct});
+    component.addProduct({ product: mockProduct, isInCart: false });
+    const action = addProduct({ product: mockProduct });
 
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledWith(action);
   });
 
   it('should remove a product from the cart', () => {
-    store.dispatch(addProduct({product: mockProduct}));
+    store.dispatch(addProduct({ product: mockProduct }));
     component.removeProduct(mockProduct.name);
-    const action = removeProduct({productName: mockProduct.name});
+    const action = removeProduct({ productName: mockProduct.name });
 
     fixture.detectChanges();
     expect(spy).toHaveBeenCalledWith(action);

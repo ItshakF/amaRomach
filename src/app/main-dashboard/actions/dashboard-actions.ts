@@ -1,9 +1,7 @@
-import {createAction, props} from '@ngrx/store';
-import {Product} from 'src/app/model/product.model';
-import {Observable} from 'rxjs';
-import {CartProduct} from 'src/app/model/cart-product.model';
-import {CartNameProduct} from 'src/app/model/cart-name-product';
-import {ProductInCart} from 'src/app/cart/reducer/cart-reducer';
+import { createAction, props } from '@ngrx/store';
+
+import { Product } from 'src/app/model/product.model';
+import { ProductInCart } from 'src/app/cart/reducer/cart-reducer';
 
 export enum dashboardAction {
   LoadProduct = '[Main Page] Load all products',
@@ -22,9 +20,8 @@ export const sucessLoad = createAction(
 
 export const failLoad = createAction(
   dashboardAction.FailLoad
-)
+);
 
 export const checkout = createAction(
   dashboardAction.Checkout, props<{ cart: ProductInCart[] }>()
 );
-

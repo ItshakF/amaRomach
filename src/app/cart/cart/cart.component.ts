@@ -1,14 +1,11 @@
-import {Component, ViewChild, ChangeDetectorRef, OnInit, ChangeDetectionStrategy} from '@angular/core';
-import {ModalTemplate, SuiModalService, TemplateModalConfig} from 'ng2-semantic-ui';
+import { Component, ViewChild, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ModalTemplate, SuiModalService, TemplateModalConfig } from 'ng2-semantic-ui';
+import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
-import {Product} from '../../model/product.model';
-import {ProductToCartService} from '../../services/product-to-cart.service';
-import {ModalComponent} from '../modal/modal.component';
-import {CartState, selectCartSize} from '../reducer/cart-reducer';
-import {Store, select} from '@ngrx/store';
-import {Observable, of} from 'rxjs';
-import * as cartReducer from '../reducer/cart-reducer';
-import {map} from 'rxjs/operators';
+import { Product } from '../../model/product.model';
+import { ModalComponent } from '../modal/modal.component';
+import { CartState, selectCartSize } from '../reducer/cart-reducer';
 
 @Component({
   selector: 'app-modal-cart',
@@ -21,7 +18,7 @@ export class CartComponent implements OnInit {
   product: Product;
   cartLength: Observable<number>;
 
-  @ViewChild('modalTemplate', {static: false})
+  @ViewChild('modalTemplate', { static: false })
   public modalTemplate: ModalTemplate<null, string, string>;
 
   constructor(public modalServices: SuiModalService,
@@ -30,7 +27,7 @@ export class CartComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.cartLength = this.store.pipe(select(selectCartSize))
+    this.cartLength = this.store.pipe(select(selectCartSize));
   }
 
   open() {
@@ -40,6 +37,6 @@ export class CartComponent implements OnInit {
     this.modalServices.open(new ModalComponent(this.store))
       .onApprove(() => config.closeResult)
       .onDeny(() => config.closeResult)
-    ;
+      ;
   }
 }

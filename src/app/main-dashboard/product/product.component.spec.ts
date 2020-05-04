@@ -1,13 +1,12 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { Store, StoreModule } from '@ngrx/store';
 
-import {ProductCardComponent} from './product.component';
-import {NO_ERRORS_SCHEMA} from '@angular/core';
-import {Store, StoreModule} from "@ngrx/store";
-import {sucessLoad} from "../actions/dashboard-actions";
-import {mockProduct, mockProducts} from "../../products.mock";
-import * as fromDashboard from "../reducers/dashboard-reducer";
-import * as fromCart from "../../cart/reducer/cart-reducer";
-import {State} from "../reducers/dashboard-reducer";
+import { ProductCardComponent } from './product.component';
+import { sucessLoad } from '../actions/dashboard-actions';
+import { mockProduct, mockProducts } from '../../products.mock';
+import * as fromDashboard from '../reducers/dashboard-reducer';
+import { State } from '../reducers/dashboard-reducer';
 
 describe('ProductCardComponent', () => {
   let component: ProductCardComponent;
@@ -16,7 +15,7 @@ describe('ProductCardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({[fromDashboard.productKey]: fromDashboard.reducer})],
+      imports: [StoreModule.forRoot({ [fromDashboard.productKey]: fromDashboard.reducer })],
       declarations: [ProductCardComponent],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
@@ -27,7 +26,7 @@ describe('ProductCardComponent', () => {
     component = fixture.componentInstance;
     component.product = mockProduct;
     store = TestBed.get(Store);
-    store.dispatch(sucessLoad({payload: mockProducts}));
+    store.dispatch(sucessLoad({ payload: mockProducts }));
     fixture.detectChanges();
   });
 

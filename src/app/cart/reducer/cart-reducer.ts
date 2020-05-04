@@ -1,7 +1,8 @@
-import {createReducer, on, createSelector, Action, createFeatureSelector} from '@ngrx/store';
+import { createReducer, on, createSelector, Action, createFeatureSelector } from '@ngrx/store';
+
 import * as cartActions from '../actions/cart-actions';
-import {State, stateProducts, selectProductFeature} from 'src/app/main-dashboard/reducers/dashboard-reducer';
-import {Product} from 'src/app/model/product.model';
+import { State, selectProductFeature } from 'src/app/main-dashboard/reducers/dashboard-reducer';
+import { Product } from 'src/app/model/product.model';
 
 export interface ProductInCart {
   productName: string;
@@ -20,13 +21,13 @@ export const cartKey = 'cart';
 
 const cartReducer = createReducer(
   initialCartState,
-  on(cartActions.addProduct, (state, {product}) => ({
-    ...state, cartProduct: [...state.cartProduct, {productName: product.name, productQuantity: 1}]
+  on(cartActions.addProduct, (state, { product }) => ({
+    ...state, cartProduct: [...state.cartProduct, { productName: product.name, productQuantity: 1 }]
   })),
-  on(cartActions.removeProduct, (state, {productName}) => ({
+  on(cartActions.removeProduct, (state, { productName }) => ({
     ...state, cartProduct: state.cartProduct.filter((product: ProductInCart) => product.productName !== productName)
   })),
-  on(cartActions.updateQuantity, (state, {updateProduct}) => ({
+  on(cartActions.updateQuantity, (state, { updateProduct }) => ({
     ...state,
     cartProduct: state.cartProduct.map((product: ProductInCart) =>
       product.productName === updateProduct.productName ? {
@@ -40,25 +41,25 @@ const cartReducer = createReducer(
 
 export const selectCartState = createFeatureSelector<CartState>(cartKey);
 
-export const cartState = createSelector(
+export const selectCartProducts = createSelector(
   selectCartState,
   (state: CartState) => state.cartProduct
 );
 
 export const getViewOfCartProducts = createSelector(
   selectCartState, selectProductFeature, (cartState: CartState, productState: State) =>
-    cartState.cartProduct.map(productToFound =>
-      productState.products.find(product => product.name === productToFound.productName))
+  cartState.cartProduct.map(productToFound =>
+    productState.products.find(product => product.name === productToFound.productName))
 );
 
 export const getCart = createSelector(
   selectCartState, selectProductFeature, (cartState: CartState, productState: State) =>
-    cartState.cartProduct.map(productToFound => {
-      return {
-        product: productState.products.find(product => product.name === productToFound.productName),
-        amount: productToFound.productQuantity
-      };
-    })
+  cartState.cartProduct.map(productToFound => {
+    return {
+      product: productState.products.find(product => product.name === productToFound.productName),
+      amount: productToFound.productQuantity
+    };
+  })
 );
 
 export const getTotalPrice = createSelector(

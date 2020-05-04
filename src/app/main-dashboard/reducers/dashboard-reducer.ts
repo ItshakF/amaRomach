@@ -1,8 +1,8 @@
-import {Product} from 'src/app/model/product.model';
-import {createReducer, Action, on, createSelector, createFeatureSelector} from '@ngrx/store';
+import { createReducer, Action, on, createSelector, createFeatureSelector } from '@ngrx/store';
+
+import { Product } from 'src/app/model/product.model';
 import * as dashboardActions from '../actions/dashboard-actions';
-import {Observable, of} from 'rxjs';
-import {ProductInCart} from 'src/app/cart/reducer/cart-reducer';
+import { ProductInCart } from 'src/app/cart/reducer/cart-reducer';
 
 export interface DashboardProduct {
   product: Product;
@@ -22,7 +22,7 @@ export const productKey = 'products';
 
 const dashboardReducer = createReducer(
   initialState,
-  on(dashboardActions.sucessLoad, (state, {payload}) => ({
+  on(dashboardActions.sucessLoad, (state, { payload }) => ({
     ...state, products: payload
   })),
   on(dashboardActions.checkout, (state, productsIncart) => ({
@@ -31,10 +31,10 @@ const dashboardReducer = createReducer(
         const productToModify: ProductInCart = productsIncart.cart.find((productToFound: ProductInCart) =>
           productToFound.productName === product.name);
         if (productToModify) {
-          return {...product, limit: product.limit - productToModify.productQuantity};
+          return { ...product, limit: product.limit - productToModify.productQuantity };
         }
       }
-      return {...product};
+      return { ...product };
     })]
   }))
 );

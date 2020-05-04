@@ -1,7 +1,7 @@
-import {createAction, props} from '@ngrx/store';
-import {Product} from 'src/app/model/product.model';
-import {CartProduct} from 'src/app/model/cart-product.model';
-import {ProductInCart} from '../reducer/cart-reducer';
+import { createAction, props } from '@ngrx/store';
+
+import { Product } from 'src/app/model/product.model';
+import { ProductInCart } from '../reducer/cart-reducer';
 
 export enum cartActions {
   AddProduct = '[Main Page] add a product to cart',
@@ -29,4 +29,4 @@ export const checkout = createAction(
 
 export const resetCart = createAction(
   cartActions.ResetCart
-)
+);

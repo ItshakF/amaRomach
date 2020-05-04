@@ -1,9 +1,8 @@
 import { TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 import { ProductFileReaderService } from './product-file-reader.service';
-import { HttpClient, HttpHandler, HttpClientModule } from '@angular/common/http';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import {mockProduct, mockProducts} from '../products.mock';
+import { mockProducts } from '../products.mock';
 
 describe('ProductFileReaderService', () => {
   let httpTestingController: HttpTestingController;
