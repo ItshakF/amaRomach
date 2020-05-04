@@ -1,9 +1,9 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ProductInCartComponent } from './product-in-cart.component';
-import { SuiModule } from 'ng2-semantic-ui';
-import { FormsModule } from '@angular/forms';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import {ProductInCartComponent} from './product-in-cart.component';
+import {SuiModule} from 'ng2-semantic-ui';
+import {FormsModule} from '@angular/forms';
+import {NO_ERRORS_SCHEMA} from '@angular/core';
 
 describe('ProductInCartComponent', () => {
   let component: ProductInCartComponent;

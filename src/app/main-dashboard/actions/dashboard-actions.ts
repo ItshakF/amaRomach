@@ -1,29 +1,30 @@
-import { createAction, props } from '@ngrx/store';
-import { Product } from 'src/app/model/product.model';
-import { Observable } from 'rxjs';
-import { CartProduct } from 'src/app/model/cart-product.model';
-import { CartNameProduct } from 'src/app/model/cart-name-product';
+import {createAction, props} from '@ngrx/store';
+import {Product} from 'src/app/model/product.model';
+import {Observable} from 'rxjs';
+import {CartProduct} from 'src/app/model/cart-product.model';
+import {CartNameProduct} from 'src/app/model/cart-name-product';
+import {ProductInCart} from 'src/app/cart/reducer/cart-reducer';
 
 export enum dashboardAction {
-  loadProduct = '[Main Page] Load all products',
-  sucessLoad = '[Main Page] sucess Load',
-  failLoad = '[Main Page] fail Load',
-  checkout = '[Main Page] checkout'
+  LoadProduct = '[Main Page] Load all products',
+  SucessLoad = '[Main Page] sucess Load',
+  FailLoad = '[Main Page] fail Load',
+  Checkout = '[Main Page] checkout'
 }
 
 export const loadProduct = createAction(
-  dashboardAction.loadProduct
+  dashboardAction.LoadProduct
 );
 
 export const sucessLoad = createAction(
-  dashboardAction.sucessLoad, props<{ payload: Product[] } >()
+  dashboardAction.SucessLoad, props<{ payload: Product[] }>()
 );
 
 export const failLoad = createAction(
-  dashboardAction.failLoad
+  dashboardAction.FailLoad
 )
 
 export const checkout = createAction(
-  dashboardAction.checkout, props<{ cart: Observable<CartProduct[]> }>()
+  dashboardAction.Checkout, props<{ cart: ProductInCart[] }>()
 );
 

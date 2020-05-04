@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
   selector: 'app-dropdown-selector',
@@ -8,11 +8,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class DropdownSelectorComponent {
 
   @Input() limit: number;
+  @Input() selectedOptions: number;
   @Output() numberEventEmitter: EventEmitter<number> = new EventEmitter<number>();
 
-  private selectedOptions: number;
-
-  changePrice(quantity) {
+  changePrice(quantity: number) {
     this.numberEventEmitter.emit(quantity);
   }
 

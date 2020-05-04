@@ -1,8 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { InputSelectorComponent } from './input-selector.component';
-import { SuiModule } from 'ng2-semantic-ui';
-import { FormsModule } from '@angular/forms';
+import {InputSelectorComponent} from './input-selector.component';
+import {SuiModule} from 'ng2-semantic-ui';
+import {FormsModule} from '@angular/forms';
 
 describe('InputSelectorComponent', () => {
   let component: InputSelectorComponent;

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import {Component, EventEmitter, Output, Input} from '@angular/core';
 
 @Component({
   selector: 'app-input-selector',
@@ -7,12 +7,14 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class InputSelectorComponent {
 
+  @Input() selectedOptions: number;
   @Output() numberEventEmitter: EventEmitter<number> = new EventEmitter<number>();
 
-  private selectedOptions: number;
-
-  changePrice(quantity) {
-    this.numberEventEmitter.emit(quantity);
+  changePrice(productQuantity) {
+    if (productQuantity < 1 || productQuantity === null) {
+      productQuantity = 1;
+    }
+    this.numberEventEmitter.emit(productQuantity);
   }
 
 }

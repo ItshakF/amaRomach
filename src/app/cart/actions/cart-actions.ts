@@ -1,28 +1,32 @@
-import { createAction, props } from '@ngrx/store';
-import { Product } from 'src/app/model/product.model';
-import { CartProduct } from 'src/app/model/cart-product.model';
-import { ProductInCart } from '../reducer/cart-reducer';
+import {createAction, props} from '@ngrx/store';
+import {Product} from 'src/app/model/product.model';
+import {CartProduct} from 'src/app/model/cart-product.model';
+import {ProductInCart} from '../reducer/cart-reducer';
 
 export enum cartActions {
-  addProduct = '[Main Page] add a product to cart',
-  removeProduct = '[Modal] remove a product from cart',
-  updateQuantity = '[Modal] update the quantity of product in cart',
-  checkout = '[Modal] do checkout to all product'
+  AddProduct = '[Main Page] add a product to cart',
+  RemoveProduct = '[Modal] remove a product from cart',
+  UpdateQuantity = '[Modal] update the quantity of product in cart',
+  Checkout = '[Modal] do checkout to all product',
+  ResetCart = '[Modal] checkout reset',
 }
 
 export const addProduct = createAction(
-  cartActions.addProduct, props<{ product: Product }>()
+  cartActions.AddProduct, props<{ product: Product }>()
 );
 
 export const removeProduct = createAction(
-  cartActions.removeProduct, props<{ productName: string }>()
+  cartActions.RemoveProduct, props<{ productName: string }>()
 );
 
 export const updateQuantity = createAction(
-  cartActions.updateQuantity, props<{ index: number, quantity: number }>()
+  cartActions.UpdateQuantity, props<{ updateProduct: ProductInCart }>()
 );
 
 export const checkout = createAction(
-  cartActions.checkout, props<{ cart: CartProduct[] }>()
+  cartActions.Checkout, props<{ cart: ProductInCart[] }>()
 );
 
+export const resetCart = createAction(
+  cartActions.ResetCart
+)

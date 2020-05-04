@@ -1,13 +1,13 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { ProductFileReaderService } from '../../services/product-file-reader.service';
-import { Product } from '../../model/product.model';
-import { ProductToCartService } from '../../services/product-to-cart.service';
-import { Observable, Subject, of, combineLatest } from 'rxjs';
-import { takeUntil, map, delay, tap, find } from 'rxjs/operators';
-import { Store, select } from '@ngrx/store';
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
+import {ProductFileReaderService} from '../../services/product-file-reader.service';
+import {Product} from '../../model/product.model';
+import {ProductToCartService} from '../../services/product-to-cart.service';
+import {Observable, Subject, of, combineLatest} from 'rxjs';
+import {takeUntil, map, delay, tap, find} from 'rxjs/operators';
+import {Store, select} from '@ngrx/store';
 import * as dashboardActions from '../actions/dashboard-actions';
 import * as cartActions from '../../cart/actions/cart-actions';
-import { DashboardProduct } from '../reducers/dashboard-reducer';
+import {DashboardProduct} from '../reducers/dashboard-reducer';
 import * as dashboardReducer from '../reducers/dashboard-reducer';
 import * as cartReducer from '../../cart/reducer/cart-reducer';
 
@@ -23,7 +23,8 @@ export class ProductsComponent implements OnInit {
   dashProduct: Observable<DashboardProduct[]> = of([]);
   @Output() productEvent: EventEmitter<Product> = new EventEmitter<Product>();
 
-  constructor(private store: Store<dashboardReducer.State>) { }
+  constructor(private store: Store<dashboardReducer.State>) {
+  }
 
   ngOnInit() {
     this.store.dispatch(dashboardActions.loadProduct());
@@ -31,27 +32,28 @@ export class ProductsComponent implements OnInit {
     combineLatest(this.store.pipe(select(dashboardReducer.stateProducts)),
       this.store.pipe(select(cartReducer.cartState)))
       .subscribe(([products, cartProduct]) => {
-        this.trues = [];
-        return products.forEach(product => {
-          if (cartProduct.find(prod => prod.productName === product.name)) {
-            this.trues.push({ product, isInCart: true });
-          } else {
-            this.trues.push({ product, isInCart: false });
-          }
-        });
-      }
+          this.trues = [];
+          return products.forEach(product => {
+            if (cartProduct.find(prod => prod.productName === product.name)) {
+              this.trues.push({product, isInCart: true});
+            } else {
+              this.trues.push({product, isInCart: false});
+            }
+          });
+        }
       );
   }
 
-  private getTextOfProducts(productName: string) { }
+  private getTextOfProducts(productName: string) {
+  }
 
   addProduct(dashProduct: DashboardProduct) {
     const product = dashProduct.product;
-    this.store.dispatch(cartActions.addProduct({ product }));
+    this.store.dispatch(cartActions.addProduct({product}));
   }
 
   removeProduct(product: string) {
-    this.store.dispatch(cartActions.removeProduct({ productName: product }));
+    this.store.dispatch(cartActions.removeProduct({productName: product}));
   }
 
   checkout() {

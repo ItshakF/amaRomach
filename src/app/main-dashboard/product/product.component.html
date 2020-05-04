@@ -1,22 +1,22 @@
 <div class="ui centered card product">
   <div class="ui fluid image">
-    <sui-dimmer [isDimmed]="product.product.limit===0" [isClickable]="false" class="dimmer-background">
+    <sui-dimmer [isDimmed]="product.limit===0" [isClickable]="false" class="dimmer-background">
       <div class="ui red basic button" id="out-button">Out Of Stock</div>
     </sui-dimmer>
-    <img src="{{product.product.image}}" class="ui fluid image" alt="{{product.product.name}}">
+    <img src="{{product.image}}" class="ui fluid image" alt="{{product.name}}">
   </div>
   <div class="content">
-    <a class="header product-name-link" routerLink="{{product.product.name}}">{{product.product.name}}</a>
-    <div class="description">{{product.product.description}}</div>
+    <a class="header product-name-link" routerLink="{{product.name}}">{{product.name}}</a>
+    <div class="description">{{product.description}}</div>
   </div>
   <div class="extra content">
-    <div class="meta">{{product.product.price | currency: 'ILS'}}</div>
+    <div class="meta">{{product.price | currency: 'ILS'}}</div>
     <div>
       <sui-rating class="star" [ngModel]="3" [maximum]="5" [isReadonly]="true"></sui-rating>
     </div>
 
-    <button *ngIf="!product.isInCart; else remove_from_cart" class='ui primary button right floated'
-            [ngClass]="{'disabled': (product.product.limit===0)}"
+    <button *ngIf="!isIncart; else remove_from_cart" class='ui primary button right floated'
+            [ngClass]="{'disabled': (product.limit===0)}"
             (click)="addToCart()">
       Add to cart
     </button>

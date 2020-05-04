@@ -1,11 +1,11 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { SuiModule, SuiPopupConfig } from 'ng2-semantic-ui';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {NO_ERRORS_SCHEMA} from '@angular/core';
+import {SuiModule, SuiPopupConfig} from 'ng2-semantic-ui';
+import {ActivatedRoute, Router, RouterModule} from '@angular/router';
+import {FormsModule} from '@angular/forms';
 
-import { SharedComponent } from './shared.component';
-import { AppRoutingModule } from '../app-routing.module';
+import {SharedComponent} from './shared.component';
+import {AppRoutingModule} from '../app-routing.module';
 
 
 describe('SharedComponent', () => {
