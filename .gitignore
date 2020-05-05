@@ -49,3 +49,5 @@ node_modules/
 dist/
 img/
 jquery*
+src/assets/semantic-ui/semantic/src/*
+src/assets/semantic-ui/semantic/task/*
