@@ -83,3 +83,5 @@ export const selectCartSize = createSelector(
 export function reducer(state: CartState, action: Action) {
   return cartReducer(state, action);
 }
+
+console.log();
