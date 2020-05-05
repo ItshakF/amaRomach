@@ -9,6 +9,7 @@ import * as cartActions from '../../cart/actions/cart-actions';
 import { DashboardProduct } from '../reducers/dashboard-reducer';
 import * as dashboardReducer from '../reducers/dashboard-reducer';
 import * as cartReducer from '../../cart/reducer/cart-reducer';
+import * as fromEntity from '../reducers/entitie-reducer';
 
 @Component({
   selector: 'app-product-admin',
@@ -18,14 +19,17 @@ import * as cartReducer from '../../cart/reducer/cart-reducer';
 
 export class ProductsComponent implements OnInit {
   products: DashboardProduct[];
+  try: Observable<any>;
   dashProduct: Observable<DashboardProduct[]> = of([]);
   @Output() productEvent: EventEmitter<Product> = new EventEmitter<Product>();
 
-  constructor(private store: Store<dashboardReducer.State>) {
+  constructor(private store: Store<dashboardReducer.State>,
+              private store2: Store<fromEntity.State>) {
   }
 
   ngOnInit() {
     this.store.dispatch(dashboardActions.loadProduct());
+    this.try = this.store2.pipe(select(fromEntity.selecProducts));
 
     combineLatest(this.store.pipe(select(dashboardReducer.stateProducts)),
       this.store.pipe(select(cartReducer.selectCartProducts)))

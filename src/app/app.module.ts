@@ -12,9 +12,9 @@ import {AppRoutingModule} from './app-routing.module';
 import {DashboardRoutingModule} from './main-dashboard/dashboard-routing/dashboard-routing.module';
 import {SignRoutingModule} from './sign/sign-routing.module';
 import {StoreModule} from '@ngrx/store';
-import * as fromDashboard from './main-dashboard/reducers/dashboard-reducer';
 import {EffectsModule} from '@ngrx/effects';
 import {ProductEffect} from './main-dashboard/effects/dashboard-effect';
+import {reducers} from './index';
 
 @NgModule({
   declarations: [
@@ -30,7 +30,7 @@ import {ProductEffect} from './main-dashboard/effects/dashboard-effect';
     DashboardRoutingModule,
     SignRoutingModule,
     ProductModule,
-    StoreModule.forRoot({}),
+    StoreModule.forRoot(reducers),
     EffectsModule.forRoot([ProductEffect]),
     StoreDevtoolsModule.instrument({
       maxAge: 10
