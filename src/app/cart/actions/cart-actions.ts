@@ -4,11 +4,10 @@ import { Product } from 'src/app/model/product.model';
 import { ProductInCart } from '../reducer/cart-reducer';
 
 export enum cartActions {
-  AddProduct = '[Main Page] add a product to cart',
-  RemoveProduct = '[Modal] remove a product from cart',
-  UpdateQuantity = '[Modal] update the quantity of product in cart',
-  Checkout = '[Modal] do checkout to all product',
-  ResetCart = '[Modal] checkout reset',
+  AddProduct = '[Cart State] add a product to cart',
+  RemoveProduct = '[Cart State] remove a product from cart',
+  UpdateQuantity = '[Cart State] update the quantity of product in cart',
+  Checkout = '[Cart State] do checkout to all product',
 }
 
 export const addProduct = createAction(
@@ -25,8 +24,4 @@ export const updateQuantity = createAction(
 
 export const checkout = createAction(
   cartActions.Checkout, props<{ cart: ProductInCart[] }>()
-);
-
-export const resetCart = createAction(
-  cartActions.ResetCart
 );

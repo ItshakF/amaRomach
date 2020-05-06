@@ -34,16 +34,16 @@ describe('ProductInCartComponent', () => {
   });
 
   it('should emit the product to update', () => {
-    spyOn(component.productEventPriceUpdate, 'emit');
-    component.changePrice(15);
-    expect(component.productEventPriceUpdate.emit)
+    spyOn(component.cartUpdateEvent, 'emit');
+    component.updateQuantity(15);
+    expect(component.cartUpdateEvent.emit)
       .toHaveBeenCalledWith({product: component.product, amount: 15});
   });
 
   it('should emit the product to update', () => {
-    spyOn(component.productEventRemoveProduct, 'emit');
+    spyOn(component.removeProductEvent, 'emit');
     component.removeProduct();
-    expect(component.productEventRemoveProduct.emit)
+    expect(component.removeProductEvent.emit)
       .toHaveBeenCalledWith(component.product);
   });
 });

@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 import {Product} from '../../model/product.model';
 import {CartProduct} from '../../model/cart-product.model';
+import { ProductInCart } from '../reducer/cart-reducer';
 
 @Component({
   selector: 'app-modal-product-in-cart',
@@ -12,10 +13,15 @@ export class ProductInCartComponent implements OnInit {
 
   @Input() product: Product;
   @Input() amount: number;
-  @Output() productEventPriceUpdate: EventEmitter<CartProduct> = new EventEmitter<CartProduct>();
-  @Output() productEventRemoveProduct: EventEmitter<Product> = new EventEmitter<Product>();
+  @Output() cartUpdateEvent: EventEmitter<ProductInCart>;
+  @Output() removeProductEvent: EventEmitter<string>;
 
   private productCount: number[];
+
+  constructor() {
+    this.cartUpdateEvent = new EventEmitter<ProductInCart>();
+    this.removeProductEvent = new EventEmitter<string>();
+  }
 
   ngOnInit() {
     this.productCount = [];
@@ -26,12 +32,12 @@ export class ProductInCartComponent implements OnInit {
     }
   }
 
-  changePrice(productQuantity: number) {
-    this.productEventPriceUpdate.emit({product: this.product, amount: productQuantity});
+  updateQuantity(productQuantity: number) {
+    this.cartUpdateEvent.emit({productName: this.product.name, productQuantity});
   }
 
   removeProduct() {
-    this.productEventRemoveProduct.emit(this.product);
+    this.removeProductEvent.emit(this.product.name);
   }
 
 }
