@@ -30,8 +30,8 @@ describe('InputSelectorComponent', () => {
   });
 
   it('should emit the quantity to update', () => {
-    spyOn(component.numberEventEmitter, 'emit');
-    component.changePrice(15);
-    expect(component.numberEventEmitter.emit).toHaveBeenCalledWith(15);
+    spyOn(component.newQuantity, 'emit');
+    component.updateQuantity(15);
+    expect(component.newQuantity.emit).toHaveBeenCalledWith(15);
   });
 });

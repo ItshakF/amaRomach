@@ -5,16 +5,20 @@ import {Component, EventEmitter, Output, Input} from '@angular/core';
   templateUrl: './input-selector.component.html',
   styleUrls: ['./input-selector.component.less']
 })
+
 export class InputSelectorComponent {
 
   @Input() selectedOptions: number;
-  @Output() numberEventEmitter: EventEmitter<number> = new EventEmitter<number>();
+  @Output() newQuantity: EventEmitter<number>;
 
-  changePrice(productQuantity) {
+  constructor() {
+    this.newQuantity = new EventEmitter<number>();
+  }
+
+  updateQuantity(productQuantity) {
     if (productQuantity < 1 || productQuantity === null) {
       productQuantity = 1;
     }
-    this.numberEventEmitter.emit(productQuantity);
+    this.newQuantity.emit(productQuantity);
   }
-
 }

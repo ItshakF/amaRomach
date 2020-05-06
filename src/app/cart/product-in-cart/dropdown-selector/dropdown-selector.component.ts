@@ -5,14 +5,18 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
   templateUrl: './dropdown-selector.component.html',
   styleUrls: ['./dropdown-selector.component.less']
 })
+
 export class DropdownSelectorComponent {
 
   @Input() limit: number;
   @Input() selectedOptions: number;
-  @Output() numberEventEmitter: EventEmitter<number> = new EventEmitter<number>();
+  @Output() newQuantity: EventEmitter<number>;
 
-  changePrice(quantity: number) {
-    this.numberEventEmitter.emit(quantity);
+  constructor(){
+    this.newQuantity = new EventEmitter<number>();
   }
 
+  updateQuantity(quantity: number) {
+    this.newQuantity.emit(quantity);
+  }
 }

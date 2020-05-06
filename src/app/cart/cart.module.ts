@@ -10,7 +10,7 @@ import { ModalComponent } from './modal/modal.component';
 import { DropdownSelectorComponent } from './product-in-cart/dropdown-selector/dropdown-selector.component';
 import { InputSelectorComponent } from './product-in-cart/input-selector/input-selector.component';
 import { ProductToCartService } from '../services/product-to-cart.service';
-import * as fromCart from '../cart/reducer/cart-reducer';
+import { cartKey, reducer } from '../cart/reducer/cart-reducer';
 
 
 @NgModule({
@@ -25,7 +25,7 @@ import * as fromCart from '../cart/reducer/cart-reducer';
     CommonModule,
     SuiModule,
     FormsModule,
-    StoreModule.forFeature(fromCart.cartKey, fromCart.reducer)
+    StoreModule.forFeature(cartKey, reducer)
   ],
   exports: [
     CartComponent,

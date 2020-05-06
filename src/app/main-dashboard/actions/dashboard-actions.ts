@@ -4,10 +4,10 @@ import { Product } from 'src/app/model/product.model';
 import { ProductInCart } from 'src/app/cart/reducer/cart-reducer';
 
 export enum dashboardAction {
-  LoadProduct = '[Main Page] Load all products',
-  SucessLoad = '[Main Page] sucess Load',
-  FailLoad = '[Main Page] fail Load',
-  Checkout = '[Main Page] checkout'
+  LoadProduct = '[Product State] Load all products',
+  SucessLoad = '[Product State] sucess Load',
+  FailLoad = '[Product State] fail Load',
+  Checkout = '[Product State] checkout'
 }
 
 export const loadProduct = createAction(

@@ -9,8 +9,8 @@ import { ProductsComponent } from './products.component';
 import { ProductFileReaderService } from '../../services/product-file-reader.service';
 import { mockProduct, mockProducts } from 'src/app/products.mock';
 import { addProduct, removeProduct } from 'src/app/cart/actions/cart-actions';
-import * as fromDashboard from '../reducers/dashboard-reducer';
-import * as fromCart from '../../cart/reducer/cart-reducer';
+import * as dashboardReducer from '../reducers/dashboard-reducer';
+import * as cartReducer from '../../cart/reducer/cart-reducer';
 
 describe('ProductsComponent', () => {
   let component: ProductsComponent;
@@ -26,7 +26,7 @@ describe('ProductsComponent', () => {
       declarations: [
         ProductsComponent
       ],
-      imports: [HttpClientTestingModule, StoreModule.forRoot({ products: fromDashboard.reducer, cart: fromCart.reducer })
+      imports: [HttpClientTestingModule, StoreModule.forRoot({ products: dashboardReducer.reducer, cart: cartReducer.reducer })
       ],
       providers: [
         {

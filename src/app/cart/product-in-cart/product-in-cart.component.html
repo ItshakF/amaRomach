@@ -8,10 +8,10 @@
     <p>{{product.price | currency: 'ILS'}}</p>
     <div *ngIf="!product.limit; else limited_selector">
       <app-input-selector [selectedOptions]="amount"
-                          (numberEventEmitter)="changePrice($event)"></app-input-selector>
+                          (newQuantity)="updateQuantity($event)"></app-input-selector>
     </div>
     <ng-template #limited_selector>
-      <app-dropdown-selector (numberEventEmitter)="changePrice($event)"
+      <app-dropdown-selector (newQuantity)="updateQuantity($event)"
                              [limit]=product.limit
                              [selectedOptions]="amount"></app-dropdown-selector>
     </ng-template>

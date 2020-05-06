@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { Product } from '../../model/product.model';
 import { ModalComponent } from '../modal/modal.component';
 import { CartState, selectCartSize } from '../reducer/cart-reducer';
+import { State } from 'src/app/main-dashboard/reducers/dashboard-reducer';
 
 @Component({
   selector: 'app-modal-cart',
@@ -13,7 +14,7 @@ import { CartState, selectCartSize } from '../reducer/cart-reducer';
   styleUrls: ['./cart.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CartComponent implements OnInit {
+export class CartComponent {
 
   product: Product;
   cartLength: Observable<number>;
@@ -22,19 +23,16 @@ export class CartComponent implements OnInit {
   public modalTemplate: ModalTemplate<null, string, string>;
 
   constructor(public modalServices: SuiModalService,
-              private store: Store<CartState>,
+              private cartStore: Store<{CartState, State}>,
   ) {
-  }
-
-  ngOnInit() {
-    this.cartLength = this.store.pipe(select(selectCartSize));
+    this.cartLength = this.cartStore.pipe(select(selectCartSize));
   }
 
   open() {
     const config: TemplateModalConfig<string, string, string> =
       new TemplateModalConfig<null, string, string>(this.modalTemplate);
     config.isClosable = true;
-    this.modalServices.open(new ModalComponent(this.store))
+    this.modalServices.open(new ModalComponent(this.cartStore))
       .onApprove(() => config.closeResult)
       .onDeny(() => config.closeResult)
       ;

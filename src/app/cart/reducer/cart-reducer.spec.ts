@@ -3,7 +3,7 @@ import {mockProduct} from 'src/app/products.mock';
 import { addProduct, removeProduct, updateQuantity, resetCart} from '../actions/cart-actions';
 
 export const mockCartState: CartState = {
-  cartProduct: [{
+  cartProducts: [{
     productName: mockProduct.name,
     productQuantity: 1
   }]
