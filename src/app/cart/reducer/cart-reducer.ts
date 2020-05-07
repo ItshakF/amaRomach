@@ -33,7 +33,7 @@ const cartReducer = createReducer(
       } : product)
   })),
   on(cartActions.checkout, (state) => ({
-    ...state, cartProduct: []
+    ...state, cartProducts: []
   }))
 );
 

@@ -25,14 +25,14 @@ const dashboardReducer = createReducer(
   on(dashboardActions.sucessLoad, (state, { payload }) => ({
     ...state, products: payload
   })),
-  on(dashboardActions.checkout, (state, productsIncart) => ({
+  on(dashboardActions.checkout, (state, { cart }) => ({
     ...state, products: [...state.products.map(product => {
       if (product.limit) {
-        const productToModify: ProductInCart = productsIncart.cart.find((productToFound: ProductInCart) =>
+        const productToModify: ProductInCart = cart.find((productToFound: ProductInCart) =>
           productToFound.productName === product.name);
         if (productToModify) {
           return { ...product, limit: product.limit - productToModify.productQuantity };
-        }
+         }
       }
       return { ...product };
     })]
