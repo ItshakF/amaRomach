@@ -1,13 +1,12 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Observable, of, combineLatest } from 'rxjs';
 import { Store, select } from '@ngrx/store';
-import { map } from 'rxjs/operators';
 
 import { Product } from '../../model/product.model';
 import * as dashboardActions from '../actions/dashboard-actions';
 import * as cartActions from '../../cart/actions/cart-actions';
-import { DashboardProduct, State, stateProducts } from '../reducers/dashboard-reducer';
-import { selectCartProducts } from '../../cart/reducer/cart-reducer';
+import { DashboardProduct, ProductState, selectAllState, } from '../reducers/dashboard-reducer';
+import { CartState, selectAllCart  } from '../../cart/reducer/cart-reducer';
 
 @Component({
   selector: 'app-product-admin',
@@ -17,16 +16,17 @@ import { selectCartProducts } from '../../cart/reducer/cart-reducer';
 
 export class ProductsComponent implements OnInit {
   products: DashboardProduct[];
-  @Output() productEvent: EventEmitter<Product> = new EventEmitter<Product>();
+  @Output() productEvent: EventEmitter<Product>;
 
-  constructor(private store: Store<{State, CartState}>) {
+  constructor(private store: Store<{CartState: CartState, ProductState: ProductState }>) {
+    this.productEvent = new EventEmitter<Product>();
   }
 
   ngOnInit() {
     this.store.dispatch(dashboardActions.loadProduct());
 
-    combineLatest(this.store.pipe(select(stateProducts)),
-      this.store.pipe(select(selectCartProducts)))
+    combineLatest(this.store.pipe(select(selectAllState)),
+      this.store.pipe(select(selectAllCart)))
       .subscribe(([products, cartProduct]) => {
         this.products = [];
         return products.forEach(product => {
@@ -42,8 +42,7 @@ export class ProductsComponent implements OnInit {
 
 
   addProduct(dashProduct: DashboardProduct) {
-    const product = dashProduct.product;
-    this.store.dispatch(cartActions.addProduct({ product }));
+    this.store.dispatch(cartActions.addProduct({ product: dashProduct.product }));
   }
 
   removeProduct(product: string) {

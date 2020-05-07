@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { Product } from '../../model/product.model';
 import { ModalComponent } from '../modal/modal.component';
 import { CartState, selectCartSize } from '../reducer/cart-reducer';
-import { State } from 'src/app/main-dashboard/reducers/dashboard-reducer';
+import { ProductState } from 'src/app/main-dashboard/reducers/dashboard-reducer';
 
 @Component({
   selector: 'app-modal-cart',
@@ -23,16 +23,16 @@ export class CartComponent {
   public modalTemplate: ModalTemplate<null, string, string>;
 
   constructor(public modalServices: SuiModalService,
-              private cartStore: Store<{CartState, State}>,
+              private store: Store<{CartState: CartState, State: ProductState}>,
   ) {
-    this.cartLength = this.cartStore.pipe(select(selectCartSize));
+    this.cartLength = this.store.pipe(select(selectCartSize));
   }
 
   open() {
     const config: TemplateModalConfig<string, string, string> =
       new TemplateModalConfig<null, string, string>(this.modalTemplate);
     config.isClosable = true;
-    this.modalServices.open(new ModalComponent(this.cartStore))
+    this.modalServices.open(new ModalComponent(this.store))
       .onApprove(() => config.closeResult)
       .onDeny(() => config.closeResult)
       ;

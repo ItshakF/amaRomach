@@ -2,59 +2,57 @@ import { createReducer, Action, on, createSelector, createFeatureSelector } from
 
 import { Product } from 'src/app/model/product.model';
 import * as dashboardActions from '../actions/dashboard-actions';
-import { ProductInCart } from 'src/app/cart/reducer/cart-reducer';
+import { EntityAdapter, createEntityAdapter, EntityState } from '@ngrx/entity';
+
+export interface ProductState extends EntityState<Product> { }
 
 export interface DashboardProduct {
   product: Product;
   isInCart: boolean;
 }
 
-export interface State {
-  products: Product[];
+export function selectProductName(product: Product): string {
+  return product.name;
 }
 
-export const initialState: State = {
-  products: []
-};
+export const adapter: EntityAdapter<Product> = createEntityAdapter<Product>({
+  selectId: selectProductName,
+});
+
+export const initialState = adapter.getInitialState();
 
 export const productKey = 'products';
 
 
 const dashboardReducer = createReducer(
   initialState,
-  on(dashboardActions.sucessLoad, (state, { payload }) => ({
-    ...state, products: payload
-  })),
-  on(dashboardActions.checkout, (state, productsIncart) => ({
-    ...state, products: [...state.products.map(product => {
-      if (product.limit) {
-        const productToModify: ProductInCart = productsIncart.cart.find((productToFound: ProductInCart) =>
-          productToFound.productName === product.name);
-        if (productToModify) {
-          return { ...product, limit: product.limit - productToModify.productQuantity };
-        }
-      }
-      return { ...product };
-    })]
-  }))
+  on(dashboardActions.sucessLoad, (state, { payload }) => {
+    return adapter.setAll(payload, state);
+  }),
+  on(dashboardActions.checkout, (state, { cart }) => {
+    return adapter.updateMany(cart, state);
+  }),
 );
 
-export const selectProductFeature = createFeatureSelector<State>(productKey);
+export const getProductState = createFeatureSelector<ProductState>(productKey);
 
-export const productFeatureState = (state: State) => state;
+const {
+  selectEntities,
+  selectAll,
+} = adapter.getSelectors();
 
-export const stateProducts = createSelector(
-  selectProductFeature,
-  (state: State) => state.products
+export const selectAllProducts = createSelector(
+  getProductState,
+  selectEntities
 );
 
-export const selectProduct = createSelector(
-  selectProductFeature,
-  (state: State, productName: string) => state.products.find(product => product.name === productName)
+export const selectAllState = createSelector(
+  getProductState,
+  selectAll
 );
 
-// export const selectState =  createSelector(stateProducts)
+export const selecProducts = selectEntities;
 
-export function reducer(state: State, action: Action) {
+export function reducer(state: ProductState, action: Action) {
   return dashboardReducer(state, action);
 }

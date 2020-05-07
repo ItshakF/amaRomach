@@ -11,7 +11,6 @@ import { reducer } from '../reducer/cart-reducer';
 describe('CartComponent', () => {
   let component: CartComponent;
   let fixture: ComponentFixture<CartComponent>;
-  const mockModalService = mock(SuiModalService);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -19,7 +18,7 @@ describe('CartComponent', () => {
       imports: [StoreModule.forRoot({ cart: reducer })
       ],
       providers: [
-        { provide: SuiModalService, useValue: {mockModalService} }
+        { provide: SuiModalService, useValue: {} }
       ],
       schemas: [NO_ERRORS_SCHEMA],
     })

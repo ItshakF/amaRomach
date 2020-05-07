@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
+import { UpdateStr } from '@ngrx/entity/src/models';
 
 import { Product } from 'src/app/model/product.model';
-import { ProductInCart } from 'src/app/cart/reducer/cart-reducer';
 
 export enum dashboardAction {
   LoadProduct = '[Product State] Load all products',
@@ -23,5 +23,5 @@ export const failLoad = createAction(
 );
 
 export const checkout = createAction(
-  dashboardAction.Checkout, props<{ cart: ProductInCart[] }>()
+  dashboardAction.Checkout, props<{ cart: UpdateStr<Product>[] }>()
 );

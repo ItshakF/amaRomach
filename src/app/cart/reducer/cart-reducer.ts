@@ -1,4 +1,5 @@
 import { createReducer, on, createSelector, Action, createFeatureSelector } from '@ngrx/store';
+import { createEntityAdapter, EntityState } from '@ngrx/entity';
 
 import * as cartActions from '../actions/cart-actions';
 
@@ -7,46 +8,54 @@ export interface ProductInCart {
   productQuantity: number;
 }
 
-export interface CartState {
-  cartProducts: ProductInCart[];
+export interface CartState extends EntityState<ProductInCart> { }
+
+export function selectCartProductName(cartProduct: ProductInCart) {
+  return cartProduct.productName;
 }
 
-export const initialCartState: CartState = {
-  cartProducts: []
-};
+export const cartAdapter = createEntityAdapter<ProductInCart>({
+  selectId: selectCartProductName
+});
+
+export const initialCartState = cartAdapter.getInitialState();
 
 export const cartKey = 'cart';
 
 const cartReducer = createReducer(
   initialCartState,
-  on(cartActions.addProduct, (state, { product }) => ({
-    ...state, cartProducts: [...state.cartProducts, { productName: product.name, productQuantity: 1 }]
-  })),
-  on(cartActions.removeProduct, (state, { productName }) => ({
-    ...state, cartProducts: state.cartProducts.filter((product: ProductInCart) => product.productName !== productName)
-  })),
-  on(cartActions.updateQuantity, (state, { updateProduct }) => ({
-    ...state,
-    cartProducts: state.cartProducts.map((product: ProductInCart) =>
-      product.productName === updateProduct.productName ? {
-        productName: updateProduct.productName, productQuantity: updateProduct.productQuantity
-      } : product)
-  })),
-  on(cartActions.checkout, (state) => ({
-    ...state, cartProduct: []
-  }))
+  on(cartActions.addProduct, (state, { product }) => {
+    return cartAdapter.addOne({ productName: product.name, productQuantity: 1 }, state);
+  }),
+  on(cartActions.removeProduct, (state, { productName }) => {
+    return cartAdapter.removeOne(productName, state);
+  }),
+  on(cartActions.updateQuantity, (state, { updateProduct }) => {
+    return cartAdapter.updateOne({
+      id: updateProduct.productName,
+      changes: { productQuantity: updateProduct.productQuantity }
+    }, state);
+  }),
+  on(cartActions.checkout, (state) => {
+    return cartAdapter.removeAll(state);
+  }),
 );
 
 export const selectCartState = createFeatureSelector<CartState>(cartKey);
 
-export const selectCartProducts = createSelector(
+const {
+  selectAll,
+  selectTotal,
+} = cartAdapter.getSelectors();
+
+export const selectAllCart = createSelector(
   selectCartState,
-  (state: CartState) => state.cartProducts
+  selectAll
 );
 
 export const selectCartSize = createSelector(
   selectCartState,
-  (state: CartState) => state.cartProducts.length
+  selectTotal
 );
 
 export function reducer(state: CartState, action: Action) {

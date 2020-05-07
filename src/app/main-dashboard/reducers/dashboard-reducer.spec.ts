@@ -1,14 +1,14 @@
-import { mockProduct, mockProducts, mockProductsAfterCheckout } from 'src/app/products.mock';
-import { State, reducer, initialState } from './dashboard-reducer';
+import {
+  mockEntityProductState,
+  mockEntityProductStateAfterCheckout,
+  mockProduct,
+  mockProducts,
+  mockProductsAfterCheckout
+} from 'src/app/products.mock';
+import { ProductState, reducer, initialState } from './dashboard-reducer';
 import * as productAction from '../actions/dashboard-actions';
+import {productsToUpdate} from '../../cart/reducer/cart-reducer.spec';
 
-export const mockProductInCart: State = {
-  products: [mockProduct]
-};
-
-export const mockProductState: State = {
-  products: mockProducts
-};
 
 describe('default', () => {
   it('should return init state', () => {
@@ -24,14 +24,14 @@ describe('Product reducer', () => {
     const action = productAction.sucessLoad({ payload: mockProducts });
     const result = reducer(initialState, action);
 
-    expect(result).toEqual({ ...initialState, products: mockProducts });
+    expect(result).toEqual(mockEntityProductState );
   });
 
   it('should apply checkout on products', () => {
-    const action = productAction.checkout({ cart: [{ productName: mockProduct.name, productQuantity: 1 }] });
-    const result = reducer(mockProductState, action);
+    const action = productAction.checkout({ cart: productsToUpdate});
+    const result = reducer(mockEntityProductState, action);
 
-    expect(result).toEqual({ products: mockProductsAfterCheckout });
+    expect(result).toEqual( mockEntityProductStateAfterCheckout );
   });
 
 });

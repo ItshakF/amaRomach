@@ -1,12 +1,34 @@
 import {CartState, reducer, initialCartState} from './cart-reducer';
 import {mockProduct} from 'src/app/products.mock';
-import { addProduct, removeProduct, updateQuantity, resetCart} from '../actions/cart-actions';
+import {addProduct, removeProduct, updateQuantity, checkout} from '../actions/cart-actions';
+import {Product} from '../../model/product.model';
+import {UpdateStr} from '@ngrx/entity/src/models';
+
+export const productsToUpdate: UpdateStr<Product>[] = [{
+  id: mockProduct.name,
+  changes: {
+    limit: 25
+  }
+}];
+
+export const productToUpdate: CartState = {
+  ids: [mockProduct.name],
+  entities: {
+    [mockProduct.name]: {
+      productName: mockProduct.name,
+      productQuantity: 5
+    }
+  }
+};
 
 export const mockCartState: CartState = {
-  cartProducts: [{
-    productName: mockProduct.name,
-    productQuantity: 1
-  }]
+  ids: [mockProduct.name],
+  entities: {
+    [mockProduct.name]: {
+      productName: mockProduct.name,
+      productQuantity: 1
+    }
+  }
 };
 
 describe('default', () => {
@@ -24,7 +46,7 @@ describe('Cart reducer', () => {
       const action = addProduct({product: mockProduct});
       const result = reducer(initialCartState, action);
 
-      expect(result).toEqual({...initialCartState, cartProduct: [{productName: mockProduct.name, productQuantity: 1}]});
+      expect(result).toEqual(mockCartState);
     });
   });
 
@@ -39,11 +61,11 @@ describe('Cart reducer', () => {
     const action = updateQuantity({updateProduct: {productName: mockProduct.name, productQuantity: 5}});
     const result = reducer(mockCartState, action);
 
-    expect(result).toEqual({...mockCartState, cartProduct: [{productName: mockProduct.name, productQuantity: 5}]});
+    expect(result).toEqual(productToUpdate);
   });
 
   it('should reset cart', () => {
-    const action = resetCart();
+    const action = checkout({cart: productsToUpdate});
     const result = reducer(initialCartState, action);
 
     expect(result).toEqual(initialCartState);
