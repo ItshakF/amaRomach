@@ -1,8 +1,7 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ProductInCart } from 'src/app/model/product-in-cart.model';
+import { Product } from '../../model/product.model';
 
-import {Product} from '../../model/product.model';
-import {CartProduct} from '../../model/cart-product.model';
-import { ProductInCart } from '../reducer/cart-reducer';
 
 @Component({
   selector: 'app-modal-product-in-cart',

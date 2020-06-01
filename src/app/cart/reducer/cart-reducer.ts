@@ -1,11 +1,6 @@
-import { createReducer, on, createSelector, Action, createFeatureSelector } from '@ngrx/store';
-
+import { Action, createFeatureSelector, createReducer, createSelector, on } from '@ngrx/store';
+import { ProductInCart } from 'src/app/model/product-in-cart.model';
 import * as cartActions from '../actions/cart-actions';
-
-export interface ProductInCart {
-  productName: string;
-  productQuantity: number;
-}
 
 export interface CartState {
   cartProducts: ProductInCart[];
@@ -29,7 +24,7 @@ const cartReducer = createReducer(
     ...state,
     cartProducts: state.cartProducts.map((product: ProductInCart) =>
       product.productName === updateProduct.productName ? {
-        productName: updateProduct.productName, productQuantity: updateProduct.productQuantity
+        ...product, productQuantity: updateProduct.productQuantity
       } : product)
   })),
   on(cartActions.checkout, (state) => ({

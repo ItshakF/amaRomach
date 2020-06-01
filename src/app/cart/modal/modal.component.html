@@ -1,7 +1,7 @@
 <div class="header">
   Your Shopping Cart
 </div>
-<div *ngFor="let productInCart of products ">
+<div *ngFor="let productInCart of products|async ">
   <app-modal-product-in-cart
     [product]="productInCart.product"
     [amount]="productInCart.amount"

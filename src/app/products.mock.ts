@@ -6,6 +6,8 @@ export const mockProduct = {
   limit: 30
 };
 
+export const mockCart = { cart: [{ productName: mockProduct.name, productQuantity: 1 }] };
+
 export const mockProducts = [
   {
     name: 'Oatmeal',

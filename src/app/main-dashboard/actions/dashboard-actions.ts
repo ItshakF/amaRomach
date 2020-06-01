@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
-
+import { ProductInCart } from 'src/app/model/product-in-cart.model';
 import { Product } from 'src/app/model/product.model';
-import { ProductInCart } from 'src/app/cart/reducer/cart-reducer';
+
 
 export enum dashboardAction {
   LoadProduct = '[Product State] Load all products',

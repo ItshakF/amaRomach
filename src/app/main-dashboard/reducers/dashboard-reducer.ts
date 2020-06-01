@@ -1,13 +1,7 @@
-import { createReducer, Action, on, createSelector, createFeatureSelector } from '@ngrx/store';
-
+import { Action, createFeatureSelector, createReducer, createSelector, on } from '@ngrx/store';
+import { ProductInCart } from 'src/app/model/product-in-cart.model';
 import { Product } from 'src/app/model/product.model';
 import * as dashboardActions from '../actions/dashboard-actions';
-import { ProductInCart } from 'src/app/cart/reducer/cart-reducer';
-
-export interface DashboardProduct {
-  product: Product;
-  isInCart: boolean;
-}
 
 export interface State {
   products: Product[];
