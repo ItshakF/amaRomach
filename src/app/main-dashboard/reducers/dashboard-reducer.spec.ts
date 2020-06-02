@@ -6,8 +6,8 @@ import { initialState, reducer } from './dashboard-reducer';
 
 describe('default', () => {
   it('should return init state', () => {
-    const action = { type: 'NOOP' } as any;
-    const result = reducer(undefined, action);
+    const intialisationAction = { type: 'NOOP' } as any;
+    const result = reducer(undefined, intialisationAction);
 
     expect(result).toBe(initialState);
   });
@@ -15,8 +15,8 @@ describe('default', () => {
 
 describe('Product reducer', () => {
   it('should load products', () => {
-    const action = productAction.sucessLoad({ payload: mockProducts });
-    const result = reducer(initialState, action);
+    const sucessLoadAction = productAction.sucessLoad({ payload: mockProducts });
+    const result = reducer(initialState, sucessLoadAction);
 
     expect(result).toEqual(mockEntityProductState );
   });

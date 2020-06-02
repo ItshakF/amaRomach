@@ -1,18 +1,16 @@
-import { Component, ViewChild, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { select, Store } from '@ngrx/store';
 import { ModalTemplate, SuiModalService, TemplateModalConfig } from 'ng2-semantic-ui';
-import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
-
+import { ProductState } from 'src/app/main-dashboard/reducers/dashboard-reducer';
 import { Product } from '../../model/product.model';
 import { ModalComponent } from '../modal/modal.component';
 import { CartState, selectCartSize } from '../reducer/cart-reducer';
-import { ProductState } from 'src/app/main-dashboard/reducers/dashboard-reducer';
 
 @Component({
   selector: 'app-modal-cart',
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CartComponent {
 

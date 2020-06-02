@@ -1,16 +1,16 @@
-import { Observable, empty, from, of } from 'rxjs';
-import { Action } from '@ngrx/store';
 import { TestBed } from '@angular/core/testing';
-import { mock, instance, when } from 'ts-mockito';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
+import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
-
-import { ProductEffect } from './dashboard-effect';
+import { empty, Observable, of } from 'rxjs';
+import * as cartActions from 'src/app/cart/actions/cart-actions';
+import { mockCart, mockProducts } from 'src/app/products.mock';
 import { ProductFileReaderService } from 'src/app/services/product-file-reader.service';
-import { mockProduct, mockProducts } from 'src/app/products.mock';
+import { instance, mock, when } from 'ts-mockito';
 import * as productAction from '../actions/dashboard-actions';
-import * as  cartActions from 'src/app/cart/actions/cart-actions';
+import { ProductEffect } from './dashboard-effect';
+
 
 
 export class TestActions extends Actions {
@@ -36,6 +36,7 @@ describe('ProductEffect', () => {
 
   let actions: TestActions;
   const MockFileReaderService: ProductFileReaderService = mock(ProductFileReaderService);
+  when(MockFileReaderService.getJSONListOfProducts()).thenReturn(of(mockProducts));
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -59,11 +60,10 @@ describe('ProductEffect', () => {
 
   describe('Load product', () => {
     it('it should return success load', () => {
-      when(MockFileReaderService.getJSONListOfProducts()).thenReturn(of(mockProducts));
-      const action = productAction.loadProduct;
+      const loadProductAction = productAction.loadProduct;
       const outcome = productAction.sucessLoad({ payload: mockProducts });
 
-      actions.stream = hot('--a', { a: action });
+      actions.stream = hot('--a', { a: loadProductAction });
       const response = cold('-a', { a: mockProducts });
       const expected = cold('--b', { b: outcome });
 
@@ -74,10 +74,10 @@ describe('ProductEffect', () => {
 
   describe('checkout', () => {
     it('should aply checkout', () => {
-      const action = cartActions.checkout({ cart: [{ productName: mockProduct.name, productQuantity: 1 }] });
-      const outcomes = productAction.checkout({ cart: [{ productName: mockProduct.name, productQuantity: 1 }] });
+      const checkoutAction = cartActions.checkout(mockCart);
+      const outcomes = productAction.checkout(mockCart);
 
-      actions.stream = hot('--a', { a: action });
+      actions.stream = hot('--a', { a: checkoutAction });
       const expected = cold('--b', { b: outcomes });
 
       expect(effect.checkout$).toBeObservable(expected);

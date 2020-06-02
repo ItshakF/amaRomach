@@ -1,7 +1,7 @@
-import { createAction, props } from '@ngrx/store';
 import { UpdateStr } from '@ngrx/entity/src/models';
-
+import { createAction, props } from '@ngrx/store';
 import { Product } from 'src/app/model/product.model';
+
 
 export enum dashboardAction {
   LoadProduct = '[Product State] Load all products',

@@ -1,8 +1,7 @@
-import { createReducer, Action, on, createSelector, createFeatureSelector } from '@ngrx/store';
-
+import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity';
+import { Action, createFeatureSelector, createReducer, createSelector, on } from '@ngrx/store';
 import { Product } from 'src/app/model/product.model';
 import * as dashboardActions from '../actions/dashboard-actions';
-import { EntityAdapter, createEntityAdapter, EntityState } from '@ngrx/entity';
 
 export interface ProductState extends EntityState<Product> { }
 

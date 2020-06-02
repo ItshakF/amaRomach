@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { ComponentModalConfig } from 'ng2-semantic-ui';
-import { combineLatest} from 'rxjs';
-import { Store, select } from '@ngrx/store';
 import { UpdateStr } from '@ngrx/entity/src/models';
-
+import { select, Store } from '@ngrx/store';
+import { ComponentModalConfig } from 'ng2-semantic-ui';
+import { combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { ProductState, selectAllState } from 'src/app/main-dashboard/reducers/dashboard-reducer';
+import { Product } from 'src/app/model/product.model';
 import { CartProduct } from '../../model/cart-product.model';
 import * as cartActions from '../actions/cart-actions';
-import { ProductInCart, CartState, selectAllCart, } from '../reducer/cart-reducer';
-import { selectAllState, ProductState } from 'src/app/main-dashboard/reducers/dashboard-reducer';
-import { Product } from 'src/app/model/product.model';
+import { CartState, ProductInCart, selectAllCart } from '../reducer/cart-reducer';
+
 
 @Component({
   selector: 'app-modal',
@@ -18,7 +19,7 @@ import { Product } from 'src/app/model/product.model';
 export class ModalComponent extends ComponentModalConfig<null, void, void> implements OnInit {
 
   cartTotalPrice: number;
-  products: CartProduct[];
+  products: Observable<CartProduct[]>;
 
   constructor(private store: Store<{ CartState: CartState, State: ProductState}>) {
     super(ModalComponent);
@@ -26,21 +27,20 @@ export class ModalComponent extends ComponentModalConfig<null, void, void> imple
 
   ngOnInit(): void {
     this.isClosable = true;
-    combineLatest(
+    this.products = combineLatest(
       this.store.pipe(select(selectAllCart)),
-      this.store.pipe(select(selectAllState))).subscribe(
+      this.store.pipe(select(selectAllState))).pipe(map(
         ([cartProduct, products ]) => {
-          this.products = [];
           this.cartTotalPrice = 0;
-          return cartProduct.forEach(productInCart => {
+          return cartProduct.map(productInCart => {
             const productToAdd = products.find(product => product.name === productInCart.productName );
             if (productToAdd) {
-              this.products.push({product : productToAdd, amount: productInCart.productQuantity});
               this.cartTotalPrice += productInCart.productQuantity * productToAdd.price;
+              return { product : productToAdd, amount: productInCart.productQuantity};
             }
           });
         }
-      );
+      ));
   }
 
   updatePrice(cartProduct: ProductInCart) {

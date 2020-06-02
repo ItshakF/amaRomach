@@ -1,7 +1,7 @@
-import { createReducer, on, createSelector, Action, createFeatureSelector } from '@ngrx/store';
 import { createEntityAdapter, EntityState } from '@ngrx/entity';
-
+import { createFeatureSelector, createReducer, createSelector, on } from '@ngrx/store';
 import * as cartActions from '../actions/cart-actions';
+
 
 export interface ProductInCart {
   productName: string;
@@ -22,7 +22,7 @@ export const initialCartState = cartAdapter.getInitialState();
 
 export const cartKey = 'cart';
 
-const cartReducer = createReducer(
+export const cartReducer = createReducer(
   initialCartState,
   on(cartActions.addProduct, (state, { product }) => {
     return cartAdapter.addOne({ productName: product.name, productQuantity: 1 }, state);
@@ -57,7 +57,3 @@ export const selectCartSize = createSelector(
   selectCartState,
   selectTotal
 );
-
-export function reducer(state: CartState, action: Action) {
-  return cartReducer(state, action);
-}

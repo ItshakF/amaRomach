@@ -1,12 +1,13 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Observable, of, combineLatest } from 'rxjs';
-import { Store, select } from '@ngrx/store';
-
+import { select, Store } from '@ngrx/store';
+import { combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import * as cartActions from '../../cart/actions/cart-actions';
+import { CartState, selectAllCart } from '../../cart/reducer/cart-reducer';
 import { Product } from '../../model/product.model';
 import * as dashboardActions from '../actions/dashboard-actions';
-import * as cartActions from '../../cart/actions/cart-actions';
-import { DashboardProduct, ProductState, selectAllState, } from '../reducers/dashboard-reducer';
-import { CartState, selectAllCart  } from '../../cart/reducer/cart-reducer';
+import { DashboardProduct, ProductState, selectAllState } from '../reducers/dashboard-reducer';
+
 
 @Component({
   selector: 'app-product-admin',
@@ -15,7 +16,7 @@ import { CartState, selectAllCart  } from '../../cart/reducer/cart-reducer';
 })
 
 export class ProductsComponent implements OnInit {
-  products: DashboardProduct[];
+  products: Observable<DashboardProduct[]>;
   @Output() productEvent: EventEmitter<Product>;
 
   constructor(private store: Store<{CartState: CartState, ProductState: ProductState }>) {
@@ -25,19 +26,19 @@ export class ProductsComponent implements OnInit {
   ngOnInit() {
     this.store.dispatch(dashboardActions.loadProduct());
 
-    combineLatest(this.store.pipe(select(selectAllState)),
+    this.products = combineLatest(
+      this.store.pipe(select(selectAllState)),
       this.store.pipe(select(selectAllCart)))
-      .subscribe(([products, cartProduct]) => {
-        this.products = [];
-        return products.forEach(product => {
+      .pipe(map(([products, cartProduct]) => {
+        return products.map(product => {
           if (cartProduct.find(prod => prod.productName === product.name)) {
-            this.products.push({ product, isInCart: true });
+            return { product, isInCart: true };
           } else {
-            this.products.push({ product, isInCart: false });
+            return { product, isInCart: false };
           }
         });
       }
-      );
+      ));
   }
 
 
