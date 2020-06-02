@@ -1,13 +1,7 @@
-import {
-  mockEntityProductState,
-  mockEntityProductStateAfterCheckout,
-  mockProduct,
-  mockProducts,
-  mockProductsAfterCheckout
-} from 'src/app/products.mock';
-import { ProductState, reducer, initialState } from './dashboard-reducer';
+import { mockEntityProductState, mockEntityProductStateAfterCheckout, mockProducts } from 'src/app/products.mock';
+import { productsToUpdate } from '../../cart/reducer/cart-reducer.spec';
 import * as productAction from '../actions/dashboard-actions';
-import {productsToUpdate} from '../../cart/reducer/cart-reducer.spec';
+import { initialState, reducer } from './dashboard-reducer';
 
 
 describe('default', () => {
