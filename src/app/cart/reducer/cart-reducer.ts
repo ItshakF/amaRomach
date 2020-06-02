@@ -1,4 +1,4 @@
-import { Action, createFeatureSelector, createReducer, createSelector, on } from '@ngrx/store';
+import { createFeatureSelector, createReducer, createSelector, on } from '@ngrx/store';
 import { ProductInCart } from 'src/app/model/product-in-cart.model';
 import * as cartActions from '../actions/cart-actions';
 
@@ -12,7 +12,7 @@ export const initialCartState: CartState = {
 
 export const cartKey = 'cart';
 
-const cartReducer = createReducer(
+export const cartReducer = createReducer(
   initialCartState,
   on(cartActions.addProduct, (state, { product }) => ({
     ...state, cartProducts: [...state.cartProducts, { productName: product.name, productQuantity: 1 }]
@@ -43,7 +43,3 @@ export const selectCartSize = createSelector(
   selectCartState,
   (state: CartState) => state.cartProducts.length
 );
-
-export function reducer(state: CartState, action: Action) {
-  return cartReducer(state, action);
-}

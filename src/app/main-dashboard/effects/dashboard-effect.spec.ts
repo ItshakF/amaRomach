@@ -60,10 +60,10 @@ describe('ProductEffect', () => {
 
   describe('Load product', () => {
     it('it should return success load', () => {
-      const action = productAction.loadProduct;
+      const loadProductAction = productAction.loadProduct;
       const outcome = productAction.sucessLoad({ payload: mockProducts });
 
-      actions.stream = hot('--a', { a: action });
+      actions.stream = hot('--a', { a: loadProductAction });
       const response = cold('-a', { a: mockProducts });
       const expected = cold('--b', { b: outcome });
 
@@ -74,10 +74,10 @@ describe('ProductEffect', () => {
 
   describe('checkout', () => {
     it('should aply checkout', () => {
-      const action = cartActions.checkout(mockCart);
+      const checkoutAction = cartActions.checkout(mockCart);
       const outcomes = productAction.checkout(mockCart);
 
-      actions.stream = hot('--a', { a: action });
+      actions.stream = hot('--a', { a: checkoutAction });
       const expected = cold('--b', { b: outcomes });
 
       expect(effect.checkout$).toBeObservable(expected);

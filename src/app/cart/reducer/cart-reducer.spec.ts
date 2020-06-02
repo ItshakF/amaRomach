@@ -1,6 +1,6 @@
 import { mockCart, mockProduct } from 'src/app/products.mock';
 import { addProduct, checkout, removeProduct, updateQuantity } from '../actions/cart-actions';
-import { CartState, initialCartState, reducer } from './cart-reducer';
+import { cartReducer, CartState, initialCartState } from './cart-reducer';
 
 export const mockCartState: CartState = {
   cartProducts: [{
@@ -11,8 +11,8 @@ export const mockCartState: CartState = {
 
 describe('default', () => {
   it('should return init state', () => {
-    const action = {type: 'NOOP'} as any;
-    const result = reducer(undefined, action);
+    const intialisationAction = { type: 'NOOP' } as any;
+    const result = cartReducer(undefined, intialisationAction);
 
     expect(result).toBe(initialCartState);
   });
@@ -20,36 +20,33 @@ describe('default', () => {
 
 
 it('should add a product', () => {
-      const action = addProduct({product: mockProduct});
-      const result = reducer(initialCartState, action);
+  const addProductAction = addProduct({ product: mockProduct });
+  const result = cartReducer(initialCartState, addProductAction);
 
-      expect(result).toEqual({...initialCartState, cartProduct: [{productName: mockProduct.name, productQuantity: 1}]});
-    });
+  expect(result).toEqual({ ...initialCartState, cartProduct: [{ productName: mockProduct.name, productQuantity: 1 }] });
+});
 
 
 it('should remove a product', () => {
-  const action1 = addProduct({ product: mockProduct });
-  reducer(initialCartState, action1);
-  const action = removeProduct({productName: mockProduct.name});
-  const result = reducer(initialCartState, action);
+  addProduct({ product: mockProduct });
+  const removeProductAction = removeProduct({ productName: mockProduct.name });
+  const result = cartReducer(initialCartState, removeProductAction);
 
-  expect(result).toEqual({...initialCartState});
-  });
+  expect(result).toEqual({ ...initialCartState });
+});
 
 it('should update a product', () => {
-  const action1 = addProduct({ product: mockProduct });
-  reducer(initialCartState, action1);
-  const action = updateQuantity({updateProduct: {productName: mockProduct.name, productQuantity: 5}});
-  const result = reducer(mockCartState, action);
+  addProduct({ product: mockProduct });
+  const updateQuantityAction = updateQuantity({ updateProduct: { productName: mockProduct.name, productQuantity: 5 } });
+  const result = cartReducer(mockCartState, updateQuantityAction);
 
-  expect(result).toEqual({...mockCartState, cartProduct: [{productName: mockProduct.name, productQuantity: 5}]});
-  });
+  expect(result).toEqual({ ...mockCartState, cartProduct: [{ productName: mockProduct.name, productQuantity: 5 }] });
+});
 
 it('should reset cart', () => {
-  const action1 = addProduct({ product: mockProduct });
-  reducer(initialCartState, action1);
-  const action = checkout(mockCart);
-  const result = reducer(initialCartState, action);
+  addProduct({ product: mockProduct });
+  const checkoutAction = checkout(mockCart);
+  const result = cartReducer(initialCartState, checkoutAction);
 
   expect(result).toEqual(initialCartState);
-  });
+});

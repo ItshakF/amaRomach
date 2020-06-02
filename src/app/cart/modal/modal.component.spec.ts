@@ -1,16 +1,15 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {NO_ERRORS_SCHEMA} from '@angular/core';
-import {StoreModule, Store} from '@ngrx/store';
-import {BrowserDynamicTestingModule} from '@angular/platform-browser-dynamic/testing';
-
-import {ModalComponent} from './modal.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
+import { Store, StoreModule } from '@ngrx/store';
+import { sucessLoad } from '../../main-dashboard/actions/dashboard-actions';
 import * as fromDashboard from '../../main-dashboard/reducers/dashboard-reducer';
-import {mockProduct, mockProducts} from '../../products.mock';
-import {addProduct, resetCart, checkout} from '../actions/cart-actions';
-import {updateQuantity} from '../actions/cart-actions';
+import { State } from '../../main-dashboard/reducers/dashboard-reducer';
+import { mockCart, mockProduct, mockProducts } from '../../products.mock';
+import { addProduct, checkout, updateQuantity } from '../actions/cart-actions';
 import * as fromCart from '../reducer/cart-reducer';
-import {State} from '../../main-dashboard/reducers/dashboard-reducer';
-import {sucessLoad} from '../../main-dashboard/actions/dashboard-actions';
+import { ModalComponent } from './modal.component';
+
 
 describe('ModalComponent', () => {
   let component: ModalComponent;
@@ -25,7 +24,7 @@ describe('ModalComponent', () => {
       imports: [
         StoreModule.forRoot({
           [fromDashboard.productKey]: fromDashboard.reducer,
-          [fromCart.cartKey]: fromCart.reducer
+          [fromCart.cartKey]: fromCart.cartReducer
         }), BrowserDynamicTestingModule
       ],
       schemas: [NO_ERRORS_SCHEMA]
@@ -49,7 +48,7 @@ describe('ModalComponent', () => {
   it('should update quantity', () => {
     store.dispatch(addProduct({product: mockProduct}));
     const action = updateQuantity({updateProduct: {productName: mockProduct.name, productQuantity: 5}});
-    component.updatePrice({product: mockProduct, amount: 5});
+    component.updatePrice({ productName: mockProduct.name, productQuantity: 5});
 
     expect(spy).toHaveBeenCalledWith(action);
   });
@@ -60,7 +59,7 @@ describe('ModalComponent', () => {
     const actionCheckout = checkout({
       cart: [{productName: mockProduct.name, productQuantity: 5}]
     });
-    const actionReset = resetCart();
+    const actionReset = checkout(mockCart);
     component.checkout();
 
     expect(spy).toHaveBeenCalledWith(actionReset);

@@ -1,11 +1,11 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
 import { SuiModalService } from 'ng2-semantic-ui';
 import { mock } from 'ts-mockito';
-
+import { cartReducer } from '../reducer/cart-reducer';
 import { CartComponent } from './cart.component';
-import { reducer } from '../reducer/cart-reducer';
+
 
 
 describe('CartComponent', () => {
@@ -16,7 +16,7 @@ describe('CartComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [CartComponent],
-      imports: [StoreModule.forRoot({ cart: reducer })
+      imports: [StoreModule.forRoot({ cart: cartReducer })
       ],
       providers: [
         { provide: SuiModalService, useValue: {mockModalService} }
