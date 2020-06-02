@@ -1,18 +1,24 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import {Component, EventEmitter, Output, Input} from '@angular/core';
 
 @Component({
   selector: 'app-input-selector',
   templateUrl: './input-selector.component.html',
   styleUrls: ['./input-selector.component.less']
 })
+
 export class InputSelectorComponent {
 
-  @Output() numberEventEmitter: EventEmitter<number> = new EventEmitter<number>();
+  @Input() selectedOptions: number;
+  @Output() newQuantity: EventEmitter<number>;
 
-  private selectedOptions: number;
-
-  changePrice(quantity) {
-    this.numberEventEmitter.emit(quantity);
+  constructor() {
+    this.newQuantity = new EventEmitter<number>();
   }
 
+  updateQuantity(productQuantity) {
+    if (productQuantity < 1 || productQuantity === null) {
+      productQuantity = 1;
+    }
+    this.newQuantity.emit(productQuantity);
+  }
 }

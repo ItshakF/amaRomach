@@ -1,14 +1,21 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { Store, StoreModule } from '@ngrx/store';
 
 import { ProductCardComponent } from './product.component';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { sucessLoad } from '../actions/dashboard-actions';
+import { mockProduct, mockProducts } from '../../products.mock';
+import * as fromDashboard from '../reducers/dashboard-reducer';
+import { State } from '../reducers/dashboard-reducer';
 
 describe('ProductCardComponent', () => {
   let component: ProductCardComponent;
   let fixture: ComponentFixture<ProductCardComponent>;
+  let store: Store<State>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [StoreModule.forRoot({ [fromDashboard.productKey]: fromDashboard.reducer })],
       declarations: [ProductCardComponent],
       schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
@@ -17,13 +24,9 @@ describe('ProductCardComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductCardComponent);
     component = fixture.componentInstance;
-    component.product = {
-      name: 'Oatmeal',
-      description: 'Hot and fluffy oatmeal & protein powder cake',
-      price: 330.00,
-      image: '../assets/images/oatmeal.jpg',
-      limit: 30
-    };
+    component.product = mockProduct;
+    store = TestBed.get(Store);
+    store.dispatch(sucessLoad({ payload: mockProducts }));
     fixture.detectChanges();
   });
 

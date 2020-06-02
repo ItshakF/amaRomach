@@ -1,6 +1,7 @@
-import { Product } from '../../model/product.model';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { CartProduct } from '../../model/cart-product.model';
+import { ProductInCart } from 'src/app/model/product-in-cart.model';
+import { Product } from '../../model/product.model';
+
 
 @Component({
   selector: 'app-modal-product-in-cart',
@@ -10,10 +11,16 @@ import { CartProduct } from '../../model/cart-product.model';
 export class ProductInCartComponent implements OnInit {
 
   @Input() product: Product;
-  @Output() productEventPriceUpdate: EventEmitter<CartProduct> = new EventEmitter<CartProduct>();
-  @Output() productEventRemoveProduct: EventEmitter<Product> = new EventEmitter<Product>();
+  @Input() amount: number;
+  @Output() cartUpdateEvent: EventEmitter<ProductInCart>;
+  @Output() removeProductEvent: EventEmitter<string>;
 
   private productCount: number[];
+
+  constructor() {
+    this.cartUpdateEvent = new EventEmitter<ProductInCart>();
+    this.removeProductEvent = new EventEmitter<string>();
+  }
 
   ngOnInit() {
     this.productCount = [];
@@ -22,15 +29,14 @@ export class ProductInCartComponent implements OnInit {
         this.productCount.push(listOfNums);
       }
     }
-    this.changePrice(1);
   }
 
-  changePrice(quantity: number) {
-    this.productEventPriceUpdate.emit({product: this.product, amount: quantity});
+  updateQuantity(productQuantity: number) {
+    this.cartUpdateEvent.emit({productName: this.product.name, productQuantity});
   }
 
   removeProduct() {
-    this.productEventRemoveProduct.emit(this.product);
+    this.removeProductEvent.emit(this.product.name);
   }
 
 }

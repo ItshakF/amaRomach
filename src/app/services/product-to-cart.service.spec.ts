@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { ProductToCartService } from './product-to-cart.service';
+import {ProductToCartService} from './product-to-cart.service';
 
 describe('ProductToCartService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

@@ -1,56 +1,54 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { ProductFileReaderService } from '../../services/product-file-reader.service';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import { combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { StateProduct } from 'src/app/model/state-product.model';
+import * as cartActions from '../../cart/actions/cart-actions';
+import { selectCartProducts } from '../../cart/reducer/cart-reducer';
 import { Product } from '../../model/product.model';
-import { ProductToCartService } from '../../services/product-to-cart.service';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { Store, select } from '@ngrx/store';
 import * as dashboardActions from '../actions/dashboard-actions';
-import * as dashboardReducer from '../reducers/dashboard-reducer';
+import { stateProducts } from '../reducers/dashboard-reducer';
+
 
 @Component({
   selector: 'app-product-admin',
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.less']
 })
-export class ProductsComponent implements OnInit, OnDestroy {
-  private products: Observable<Product[]>;
-  private currentProduct: Product;
-  private unsubscribe$: Subject<void>;
+
+export class ProductsComponent implements OnInit {
+  products: Observable<StateProduct[]>;
   @Output() productEvent: EventEmitter<Product> = new EventEmitter<Product>();
 
-  constructor(private productFileReaderService: ProductFileReaderService,
-              private productToCartService: ProductToCartService,
-              private store: Store<dashboardReducer.State>) {
+  constructor(private store: Store<{State, CartState}>) {
   }
 
   ngOnInit() {
     this.store.dispatch(dashboardActions.loadProduct());
-    this.unsubscribe$ = new Subject<void>();
-    this.products = this.store.pipe(select(dashboardReducer.stateProducts));
-    console.log(this.products);
+
+    this.products = combineLatest(
+      this.store.pipe(select(stateProducts)),
+      this.store.pipe(select(selectCartProducts)))
+      .pipe(map(([products, cartProduct]) => {
+        return products.map(product => {
+          if (cartProduct.find(prod => prod.productName === product.name)) {
+            return { product, isInCart: true };
+          } else {
+            return { product, isInCart: false };
+          }
+        });
+      }
+      ));
   }
 
-  private getTextOfProducts() {
-    return this.productFileReaderService.getJSONListOfProducts()
-      .pipe(takeUntil(this.unsubscribe$));
+
+  addProduct(dashProduct: StateProduct) {
+    const product = dashProduct.product;
+    this.store.dispatch(cartActions.addProduct({ product }));
   }
 
-  checkIfProductIsInCart(product: Product): boolean {
-    return this.productToCartService.checkProduct(product);
+  removeProduct(product: string) {
+    this.store.dispatch(cartActions.removeProduct({ productName: product }));
   }
 
-  addProduct(product: Product) {
-    this.currentProduct = product;
-    this.productToCartService.addToCart(this.currentProduct);
-  }
-
-  removeProduct(product) {
-    this.currentProduct = product;
-    this.productToCartService.removeProductFromCart(this.currentProduct);
-  }
-
-  ngOnDestroy() {
-    this.unsubscribe$.next();
-  }
 }

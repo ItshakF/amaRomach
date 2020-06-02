@@ -1,45 +1,60 @@
 import { Component, OnInit } from '@angular/core';
+import { select, Store } from '@ngrx/store';
 import { ComponentModalConfig } from 'ng2-semantic-ui';
+import { combineLatest, Observable } from 'rxjs';
+import { first, map } from 'rxjs/operators';
+import { State, stateProducts } from 'src/app/main-dashboard/reducers/dashboard-reducer';
+import { ProductInCart } from 'src/app/model/product-in-cart.model';
 import { CartProduct } from '../../model/cart-product.model';
-import { Product } from '../../model/product.model';
-import { ProductToCartService } from '../../services/product-to-cart.service';
-import { Observable } from 'rxjs';
+import * as cartActions from '../actions/cart-actions';
+import { CartState, selectCartProducts } from '../reducer/cart-reducer';
+
 
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.less']
+  styleUrls: ['./modal.component.less'],
 })
 export class ModalComponent extends ComponentModalConfig<null, void, void> implements OnInit {
 
-  private cartTotalPrice: number;
+  cartTotalPrice: number;
   products: Observable<CartProduct[]>;
 
-  constructor(private productServices: ProductToCartService) {
+  constructor(private store: Store<{ CartState: CartState, State: State}>) {
     super(ModalComponent);
   }
 
   ngOnInit(): void {
     this.isClosable = true;
-    this.cartTotalPrice = 0;
-    this.products = this.productServices.getProductCart();
+    this.products = combineLatest(
+      this.store.pipe(select(selectCartProducts)),
+      this.store.pipe(select(stateProducts))).pipe(map(
+        ([cartProduct, products ]) => {
+          this.cartTotalPrice = 0;
+          return cartProduct.map(productInCart => {
+            const productToAdd = products.find(product => product.name === productInCart.productName );
+            if (productToAdd) {
+              this.cartTotalPrice += productInCart.productQuantity * productToAdd.price;
+              return { product : productToAdd, amount: productInCart.productQuantity};
+            }
+          });
+        }
+      ));
   }
 
-  updatePrice(cartProduct: CartProduct) {
-    this.productServices.updateTotalPrice(cartProduct);
-    this.cartTotalPrice = this.productServices.getCartTotalPrice();
+  updatePrice(cartProduct: ProductInCart) {
+    this.store.dispatch(cartActions.updateQuantity({ updateProduct : cartProduct }));
   }
 
-  removeFromCart(product: Product) {
-    this.cartTotalPrice = this.productServices.getCartTotalPrice();
-    this.productServices.removeProductFromCart(product);
-  }
-
-  showCurrentPrice(): number {
-    return this.cartTotalPrice = this.productServices.getCartTotalPrice();
+  removeFromCart(productName: string) {
+    this.store.dispatch(cartActions.removeProduct({ productName }));
   }
 
   checkout() {
-    this.productServices.checkout();
+    let productInCart: ProductInCart[] = [];
+    this.store.pipe(select(selectCartProducts), first()).subscribe((products: ProductInCart[]) => {
+      productInCart = products;
+      this.store.dispatch(cartActions.checkout({ cart: productInCart }));
+    });
   }
 }

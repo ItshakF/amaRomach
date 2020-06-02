@@ -1,8 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {SuiModule} from 'ng2-semantic-ui';
+import {FormsModule} from '@angular/forms';
 
-import { DropdownSelectorComponent } from './dropdown-selector.component';
-import { SuiModule } from 'ng2-semantic-ui';
-import { FormsModule } from '@angular/forms';
+import {DropdownSelectorComponent} from './dropdown-selector.component';
 
 describe('DropdownSelectorComponent', () => {
   let component: DropdownSelectorComponent;
@@ -30,8 +30,8 @@ describe('DropdownSelectorComponent', () => {
   });
 
   it('should emit the quantity to update', () => {
-    spyOn(component.numberEventEmitter, 'emit');
-    component.changePrice(15);
-    expect(component.numberEventEmitter.emit).toHaveBeenCalledWith(15);
+    spyOn(component.newQuantity, 'emit');
+    component.updateQuantity(15);
+    expect(component.newQuantity.emit).toHaveBeenCalledWith(15);
   });
 });

@@ -1,11 +1,11 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { SuiDropdownModule, SuiModule } from 'ng2-semantic-ui';
-import { FormsModule } from '@angular/forms';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {SuiDropdownModule, SuiModule} from 'ng2-semantic-ui';
+import {FormsModule} from '@angular/forms';
 
-import { SharedComponent } from './shared.component';
-import { CartModule } from '../cart/cart.module';
-import { AppRoutingModule } from '../app-routing.module';
+import {SharedComponent} from './shared.component';
+import {CartModule} from '../cart/cart.module';
+import {AppRoutingModule} from '../app-routing.module';
 
 
 @NgModule({

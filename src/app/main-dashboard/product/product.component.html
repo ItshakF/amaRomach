@@ -15,7 +15,7 @@
       <sui-rating class="star" [ngModel]="3" [maximum]="5" [isReadonly]="true"></sui-rating>
     </div>
 
-    <button *ngIf="!isInCart; else remove_from_cart" class='ui primary button right floated'
+    <button *ngIf="!isIncart; else remove_from_cart" class='ui primary button right floated'
             [ngClass]="{'disabled': (product.limit===0)}"
             (click)="addToCart()">
       Add to cart

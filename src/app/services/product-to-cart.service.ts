@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-
-import { Product } from '../model/product.model';
 import { CartProduct } from '../model/cart-product.model';
+import { Product } from '../model/product.model';
+
 
 @Injectable({
   providedIn: 'root'
@@ -21,14 +21,14 @@ export class ProductToCartService {
   }
 
   addToCart(product: Product) {
-    this.cart.next([...this.cart.getValue(), {product, amount: this.initialProductAmount}]);
+    this.cart.next([...this.cart.getValue(), { product, amount: this.initialProductAmount }]);
     this.cartTotalPrice += product.price;
   }
 
   removeProductFromCart(product: Product) {
     const indexOfProduct: number = this.foundProduct(product);
     const currentCart: CartProduct[] = this.cart.getValue();
-    this.updateTotalPrice({product, amount: 0});
+    this.updateTotalPrice({ product, amount: 0 });
     currentCart.splice(indexOfProduct, 1);
     this.cart.next(currentCart);
   }

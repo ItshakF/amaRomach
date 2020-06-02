@@ -1,22 +1,23 @@
 <div class="header">
   Your Shopping Cart
 </div>
-<div *ngFor="let productInCart of products | async ">
+<div *ngFor="let productInCart of products|async ">
   <app-modal-product-in-cart
     [product]="productInCart.product"
-    (productEventPriceUpdate)="updatePrice($event)"
-    (productEventRemoveProduct)="removeFromCart($event)"
+    [amount]="productInCart.amount"
+    (cartUpdateEvent)="updatePrice($event)"
+    (removeProductEvent)="removeFromCart($event)"
     class="ui divided items" id="list">
   </app-modal-product-in-cart>
 </div>
 <div id="cart-sum">
-  Total Price : <span id="total-sum">{{showCurrentPrice() | currency: 'ILS' }}</span>
+  Total Price : <span>{{ cartTotalPrice | currency: 'ILS' }}</span>
 </div>
 <div class="actions">
   <button class="ui black deny button" data-dismiss="modal" (click)="modal.deny()">
     continue shopping
   </button>
-  <button class="ui primary right labeled icon button" (click)="checkout()" id="checkout-button">
+  <button class="ui primary right labeled icon button" (click)="checkout()">
     checkout
     <i class="cart icon"></i>
   </button>
