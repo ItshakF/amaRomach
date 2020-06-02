@@ -4,10 +4,11 @@ import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/t
 import { Store, StoreModule } from '@ngrx/store';
 import { sucessLoad } from '../../main-dashboard/actions/dashboard-actions';
 import * as fromDashboard from '../../main-dashboard/reducers/dashboard-reducer';
-import { State } from '../../main-dashboard/reducers/dashboard-reducer';
-import { mockCart, mockProduct, mockProducts } from '../../products.mock';
+import { ProductState } from '../../main-dashboard/reducers/dashboard-reducer';
+import { mockProduct, mockProducts } from '../../products.mock';
 import { addProduct, checkout, updateQuantity } from '../actions/cart-actions';
 import * as fromCart from '../reducer/cart-reducer';
+import { productsToUpdate } from '../reducer/cart-reducer.spec';
 import { ModalComponent } from './modal.component';
 
 
@@ -15,7 +16,7 @@ describe('ModalComponent', () => {
   let component: ModalComponent;
   let fixture: ComponentFixture<ModalComponent>;
   let spy;
-  let store: Store<State>;
+  let store: Store<ProductState>;
 
 
   beforeEach(async(() => {
@@ -57,12 +58,16 @@ describe('ModalComponent', () => {
     store.dispatch(addProduct({product: mockProduct}));
     store.dispatch(updateQuantity({updateProduct: {productName: mockProduct.name, productQuantity: 5}}));
     const actionCheckout = checkout({
-      cart: [{productName: mockProduct.name, productQuantity: 5}]
+      cart: [ {
+        id: mockProduct.name,
+        changes: {
+          limit: 25
+        }
+      }]
     });
-    const actionReset = checkout(mockCart);
+    const actionReset = checkout({ cart: productsToUpdate });
     component.checkout();
 
-    expect(spy).toHaveBeenCalledWith(actionReset);
     expect(spy).toHaveBeenCalledWith(actionCheckout);
 
   });

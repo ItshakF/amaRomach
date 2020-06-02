@@ -2,12 +2,11 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { StateProduct } from 'src/app/model/state-product.model';
 import * as cartActions from '../../cart/actions/cart-actions';
-import { selectCartProducts } from '../../cart/reducer/cart-reducer';
+import { CartState, selectAllCart } from '../../cart/reducer/cart-reducer';
 import { Product } from '../../model/product.model';
 import * as dashboardActions from '../actions/dashboard-actions';
-import { stateProducts } from '../reducers/dashboard-reducer';
+import { DashboardProduct, ProductState, selectAllState } from '../reducers/dashboard-reducer';
 
 
 @Component({
@@ -17,18 +16,19 @@ import { stateProducts } from '../reducers/dashboard-reducer';
 })
 
 export class ProductsComponent implements OnInit {
-  products: Observable<StateProduct[]>;
-  @Output() productEvent: EventEmitter<Product> = new EventEmitter<Product>();
+  products: Observable<DashboardProduct[]>;
+  @Output() productEvent: EventEmitter<Product>;
 
-  constructor(private store: Store<{State, CartState}>) {
+  constructor(private store: Store<{CartState: CartState, ProductState: ProductState }>) {
+    this.productEvent = new EventEmitter<Product>();
   }
 
   ngOnInit() {
     this.store.dispatch(dashboardActions.loadProduct());
 
     this.products = combineLatest(
-      this.store.pipe(select(stateProducts)),
-      this.store.pipe(select(selectCartProducts)))
+      this.store.pipe(select(selectAllState)),
+      this.store.pipe(select(selectAllCart)))
       .pipe(map(([products, cartProduct]) => {
         return products.map(product => {
           if (cartProduct.find(prod => prod.productName === product.name)) {
@@ -42,9 +42,8 @@ export class ProductsComponent implements OnInit {
   }
 
 
-  addProduct(dashProduct: StateProduct) {
-    const product = dashProduct.product;
-    this.store.dispatch(cartActions.addProduct({ product }));
+  addProduct(dashProduct: DashboardProduct) {
+    this.store.dispatch(cartActions.addProduct({ product: dashProduct.product }));
   }
 
   removeProduct(product: string) {

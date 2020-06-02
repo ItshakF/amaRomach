@@ -6,12 +6,12 @@ import { ProductCardComponent } from './product.component';
 import { sucessLoad } from '../actions/dashboard-actions';
 import { mockProduct, mockProducts } from '../../products.mock';
 import * as fromDashboard from '../reducers/dashboard-reducer';
-import { State } from '../reducers/dashboard-reducer';
+import {ProductState} from '../reducers/dashboard-reducer';
 
 describe('ProductCardComponent', () => {
   let component: ProductCardComponent;
   let fixture: ComponentFixture<ProductCardComponent>;
-  let store: Store<State>;
+  let store: Store<ProductState>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

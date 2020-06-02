@@ -12,9 +12,14 @@ export class ProductCardComponent implements OnInit {
   @Input() product: Product;
   @Input() isIncart: boolean;
   @Input() indexOfProduct;
-  @Output() productAddEvent: EventEmitter<Product> = new EventEmitter<Product>();
-  @Output() productRemoveEvent: EventEmitter<Product> = new EventEmitter<Product>();
+  @Output() productAddEvent: EventEmitter<Product>;
+  @Output() productRemoveEvent: EventEmitter<Product>;
   isDimmed: boolean;
+
+  constructor() {
+    this.productAddEvent = new EventEmitter<Product>();
+    this.productRemoveEvent = new EventEmitter<Product>();
+  }
 
   ngOnInit() {
     this.isDimmed = false;

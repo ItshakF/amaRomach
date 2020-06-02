@@ -14,6 +14,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {DashboardRoutingModule} from './main-dashboard/dashboard-routing.module';
 import {SignRoutingModule} from './sign/sign-routing.module';
 import {ProductEffect} from './main-dashboard/effects/dashboard-effect';
+import {reducers} from './index';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,7 @@ import {ProductEffect} from './main-dashboard/effects/dashboard-effect';
     DashboardRoutingModule,
     SignRoutingModule,
     ProductModule,
-    StoreModule.forRoot({}),
+    StoreModule.forRoot(reducers),
     EffectsModule.forRoot([ProductEffect]),
     StoreDevtoolsModule.instrument({
       maxAge: 10

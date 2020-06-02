@@ -1,5 +1,5 @@
+import { UpdateStr } from '@ngrx/entity/src/models';
 import { createAction, props } from '@ngrx/store';
-import { ProductInCart } from 'src/app/model/product-in-cart.model';
 import { Product } from 'src/app/model/product.model';
 
 
@@ -23,5 +23,5 @@ export const failLoad = createAction(
 );
 
 export const checkout = createAction(
-  dashboardAction.Checkout, props<{ cart: ProductInCart[] }>()
+  dashboardAction.Checkout, props<{ cart: UpdateStr<Product>[] }>()
 );

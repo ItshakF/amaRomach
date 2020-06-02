@@ -4,6 +4,7 @@ import {FormsModule} from '@angular/forms';
 import {NO_ERRORS_SCHEMA} from '@angular/core';
 
 import {ProductInCartComponent} from './product-in-cart.component';
+import {mockProduct} from '../../products.mock';
 
 describe('ProductInCartComponent', () => {
   let component: ProductInCartComponent;
@@ -26,6 +27,7 @@ describe('ProductInCartComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductInCartComponent);
     component = fixture.componentInstance;
+    component.product = mockProduct;
     fixture.detectChanges();
   });
 
@@ -37,13 +39,13 @@ describe('ProductInCartComponent', () => {
     spyOn(component.cartUpdateEvent, 'emit');
     component.updateQuantity(15);
     expect(component.cartUpdateEvent.emit)
-      .toHaveBeenCalledWith({product: component.product, amount: 15});
+      .toHaveBeenCalledWith({productName: mockProduct.name, productQuantity: 15});
   });
 
-  it('should emit the product to update', () => {
+  it('should emit the product to remove', () => {
     spyOn(component.removeProductEvent, 'emit');
     component.removeProduct();
     expect(component.removeProductEvent.emit)
-      .toHaveBeenCalledWith(component.product);
+      .toHaveBeenCalledWith(component.product.name);
   });
 });

@@ -14,10 +14,10 @@
   Total Price : <span>{{ cartTotalPrice | currency: 'ILS' }}</span>
 </div>
 <div class="actions">
-  <button class="ui black deny button" data-dismiss="modal" (click)="modal.deny()">
+  <button class="ui black button cancel" data-dismiss="modal">
     continue shopping
   </button>
-  <button class="ui primary right labeled icon button" (click)="checkout()">
+  <button class="ui primary right labeled icon button ok" (click)="checkout()">
     checkout
     <i class="cart icon"></i>
   </button>
